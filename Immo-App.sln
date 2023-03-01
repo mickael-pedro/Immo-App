@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Immo-App.Core", "Immo-App.Core\Immo-App.Core.csproj", "{327DD99F-1558-4C66-BF3C-A89407CB4C03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Immo-App.Core", "Immo-App.Core\Immo-App.Core.csproj", "{327DD99F-1558-4C66-BF3C-A89407CB4C03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Immo-App.Core.Tests", "Immo-App.Core.Tests\Immo-App.Core.Tests.csproj", "{9B0E61EB-0955-4086-AA32-BA26C33FC526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{327DD99F-1558-4C66-BF3C-A89407CB4C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{327DD99F-1558-4C66-BF3C-A89407CB4C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{327DD99F-1558-4C66-BF3C-A89407CB4C03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B0E61EB-0955-4086-AA32-BA26C33FC526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B0E61EB-0955-4086-AA32-BA26C33FC526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B0E61EB-0955-4086-AA32-BA26C33FC526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B0E61EB-0955-4086-AA32-BA26C33FC526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
