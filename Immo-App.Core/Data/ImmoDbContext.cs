@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Immo_App.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Immo_App.Core.Data
 {
@@ -7,5 +8,7 @@ namespace Immo_App.Core.Data
         public ImmoDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Tenant> tenant { get; set; } 
     }
 }
