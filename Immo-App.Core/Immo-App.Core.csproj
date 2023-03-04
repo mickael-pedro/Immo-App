@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Immo_App.Core</RootNamespace>
+    <UserSecretsId>72d7a9fd-24c3-4ff9-b5ab-50632c3961a6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
