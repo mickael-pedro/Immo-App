@@ -1,0 +1,28 @@
+﻿@model List<Immo_App.Core.Models.Tenant>
+
+@{
+}
+
+<h1>Tenants</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Civility</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var tenant in Model)
+		{
+			<tr>
+				<td>@tenant.id</td>
+				<td>@tenant.civility</td>
+				<td>@tenant.first_name</td>
+				<td>@tenant.last_name</td>
+			</tr>
+		}
+	</tbody>
+</table>
