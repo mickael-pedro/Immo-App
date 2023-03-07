@@ -5,6 +5,10 @@ namespace Immo_App.Core.Data
 {
     public class ImmoDbContext : DbContext
     {
+        public ImmoDbContext()
+        {
+        }
+
         public ImmoDbContext(DbContextOptions options) : base(options)
         {
         }
