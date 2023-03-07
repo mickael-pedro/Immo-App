@@ -1,6 +1,6 @@
 namespace Immo_App.Core.Tests
 {
-    public class UnitTest1
+    public class TenantsControllerTest
     {
         [Fact]
         public void Test1()
