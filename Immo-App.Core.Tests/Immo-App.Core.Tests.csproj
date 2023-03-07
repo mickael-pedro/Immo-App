@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Immo-App.Core\Immo-App.Core.csproj" />
+  </ItemGroup>
+
 </Project>
