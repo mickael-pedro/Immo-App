@@ -1,7 +1,12 @@
+using Immo_App.Core.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ImmoDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ImmoDbConnectionString")));
 
 var app = builder.Build();
 
