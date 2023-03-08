@@ -13,14 +13,16 @@ namespace Immo_App.Core.Tests
                     id = 1,
                     civility = "Monsieur",
                     first_name = "Jean",
-                    last_name = "Dupont"
+                    last_name = "Dupont",
+                    email = "jean@dupont.com"
                 },
                 new Tenant
                 {
                     id = 2,
                     civility = "Madame",
                     first_name = "Jeanne",
-                    last_name = "Pasquier"
+                    last_name = "Pasquier",
+                    email = "jeanne@exemple.org"
                 }
             };
         }
