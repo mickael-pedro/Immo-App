@@ -2,6 +2,7 @@ using Immo_App.Core.Controllers;
 using Immo_App.Core.Data;
 using Immo_App.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
 
@@ -25,6 +26,24 @@ namespace Immo_App.Core.Tests
             // Assert
             Assert.Equal("Index", viewresult.ViewName);
             Assert.Equal(2, model.Count);
+        }
+
+        [Fact]
+        public void TenantsControllerAddTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db")
+            .Options;
+            var context = new ImmoDbContext(options);
+
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            context.SaveChanges();
+
+            // Act
+
+            // Assert
         }
     }
 }
