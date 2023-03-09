@@ -20,6 +20,12 @@ namespace Immo_App.Core.Controllers
             return View("Index", tenants);
         }
 
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(AddTenantViewModel addTenantRequest)
         {
