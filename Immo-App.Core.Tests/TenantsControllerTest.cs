@@ -46,6 +46,10 @@ namespace Immo_App.Core.Tests
             { civility = "Monsieur", first_name = "Pierre", last_name = "Marchal", email = "p.marchal@example.fr" };
 
             // Act
+            controller.Add(tenantToAdd);
+            var result = controller.Index();
+            var viewresult = result.Result as ViewResult;
+            var model = (List<Tenant>)(viewresult.Model);
 
             // Assert
         }
