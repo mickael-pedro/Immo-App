@@ -52,6 +52,10 @@ namespace Immo_App.Core.Tests
             var model = (List<Tenant>)(viewresult.Model);
 
             // Assert
+            var tenantAdded = context.tenant.Find(3);
+            // Check if ID and email of last added Tenant match what we except
+            Assert.Equal(3, tenantAdded.id);
+            Assert.Equal("p.marchal@example.fr", tenantAdded.email);
         }
     }
 }
