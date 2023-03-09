@@ -41,6 +41,10 @@ namespace Immo_App.Core.Tests
             tenantFakeList.ForEach(t => context.tenant.Add(t));
             context.SaveChanges();
 
+            var controller = new TenantsController(context);
+            AddTenantViewModel tenantToAdd = new AddTenantViewModel()
+            { civility = "Monsieur", first_name = "Pierre", last_name = "Marchal", email = "p.marchal@example.fr" };
+
             // Act
 
             // Assert
