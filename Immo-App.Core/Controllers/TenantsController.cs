@@ -42,6 +42,28 @@ namespace Immo_App.Core.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var tenant = await immoDbContext.tenant.FirstOrDefaultAsync(x => x.id == id);
+
+            if (tenant != null)
+            {
+                var viewModel = new UpdateTenantViewModel()
+                {
+                    id = tenant.id,
+                    civility = tenant.civility,
+                    first_name = tenant.first_name,
+                    last_name = tenant.last_name,
+                    email = tenant.email
+                };
+
+                return View(viewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateTenantViewModel model)
         {
