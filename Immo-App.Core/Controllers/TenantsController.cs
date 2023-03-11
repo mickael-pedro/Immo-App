@@ -16,7 +16,7 @@ namespace Immo_App.Core.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var tenants = await immoDbContext.tenant.ToListAsync();
+            var tenants = await immoDbContext.tenant.OrderBy(t => t.id).ToListAsync();
             return View("Index", tenants);
         }
 
@@ -39,6 +39,27 @@ namespace Immo_App.Core.Controllers
 
             await immoDbContext.tenant.AddAsync(tenant);
             await immoDbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateTenantViewModel model)
+        {
+            var tenant = await immoDbContext.tenant.FindAsync(model.id);
+
+            if (tenant != null)
+            {
+                tenant.id = model.id;
+                tenant.civility = model.civility;
+                tenant.first_name = model.first_name;
+                tenant.last_name = model.last_name;
+                tenant.email = model.email;
+
+                await immoDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
             return RedirectToAction("Index");
         }
     }
