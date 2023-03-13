@@ -1,0 +1,34 @@
+﻿@model List<Immo_App.Core.Models.Apartment>
+
+@{
+}
+
+<h1>Appartements</h1>
+
+<button type="button" class="btn btn-primary float-end" onclick="location.href='@Url.Action("Add", "apartments")'">Ajouter Appartement</button>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Adresse</th>
+			<th>Complément d'adresse</th>
+			<th>Ville</th>
+			<th>Code Postal</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var apartment in Model)
+		{
+			<tr>
+				<td>@apartment.id</td>
+				<td>@apartment.address</td>
+				<td>@apartment.address_complement</td>
+				<td>@apartment.city</td>
+				<td>@apartment.zip_code</td>
+				<td><a href="apartments/Edit/@apartment.id">Modifier</a></td>
+			</tr>
+		}
+	</tbody>
+</table>
