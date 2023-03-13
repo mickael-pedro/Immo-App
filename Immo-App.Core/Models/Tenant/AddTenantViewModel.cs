@@ -1,4 +1,4 @@
-﻿namespace Immo_App.Core.Models
+﻿namespace Immo_App.Core.Models.Tenant
 {
     public class AddTenantViewModel
     {

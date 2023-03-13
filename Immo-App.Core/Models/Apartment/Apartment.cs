@@ -1,4 +1,4 @@
-﻿namespace Immo_App.Core.Models
+﻿namespace Immo_App.Core.Models.Apartment
 {
     public class Apartment
     {

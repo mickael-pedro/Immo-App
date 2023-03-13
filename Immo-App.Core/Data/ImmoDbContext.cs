@@ -1,4 +1,5 @@
-﻿using Immo_App.Core.Models;
+﻿using Immo_App.Core.Models.Apartment;
+using Immo_App.Core.Models.Tenant;
 using Microsoft.EntityFrameworkCore;
 
 namespace Immo_App.Core.Data
