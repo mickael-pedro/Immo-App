@@ -42,5 +42,48 @@ namespace Immo_App.Core.Controllers
             await immoDbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var apartment = await immoDbContext.apartment.FirstOrDefaultAsync(x => x.id == id);
+
+            if (apartment != null)
+            {
+                var viewModel = new UpdateApartmentViewModel()
+                {
+                    id = apartment.id,
+                    address = apartment.address,
+                    address_complement = apartment.address_complement,
+                    city = apartment.city,
+                    zip_code = apartment.zip_code
+                };
+
+                return View(viewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateApartmentViewModel model)
+        {
+            var apartment = await immoDbContext.apartment.FindAsync(model.id);
+
+            if (apartment != null)
+            {
+                apartment.id = model.id;
+                apartment.address = model.address;
+                apartment.address_complement = model.address_complement;
+                apartment.city = model.city;
+                apartment.zip_code = model.zip_code;
+
+                await immoDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
