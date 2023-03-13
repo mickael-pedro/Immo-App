@@ -1,6 +1,6 @@
 using Immo_App.Core.Controllers;
 using Immo_App.Core.Data;
-using Immo_App.Core.Models;
+using Immo_App.Core.Models.Tenant;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
