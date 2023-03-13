@@ -49,7 +49,7 @@ namespace Immo_App.Core.Tests
 
             var controller = new ApartmentsController(context);
             AddApartmentViewModel apartmentToAdd = new()
-            { address = "5 Rue Massena", address_complement = "Aucun", city = "Nice", zip_code = "06000" };
+            { address = "5 Rue Massena", address_complement = "Aucun", city = "Nice", zip_code = 06000 };
 
             // Act
             controller.Add(apartmentToAdd);
