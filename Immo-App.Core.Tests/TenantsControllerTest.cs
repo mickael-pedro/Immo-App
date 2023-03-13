@@ -16,6 +16,7 @@ namespace Immo_App.Core.Tests
             .UseInMemoryDatabase(databaseName: "immo_db")
             .Options;
             var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
 
             var tenantFakeList = TestDataHelper.GetFakeTenantList();
             tenantFakeList.ForEach(t => context.tenant.Add(t));
@@ -41,6 +42,7 @@ namespace Immo_App.Core.Tests
             .UseInMemoryDatabase(databaseName: "immo_db")
             .Options;
             var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
 
             var tenantFakeList = TestDataHelper.GetFakeTenantList();
             tenantFakeList.ForEach(t => context.tenant.Add(t));
@@ -71,6 +73,7 @@ namespace Immo_App.Core.Tests
             .UseInMemoryDatabase(databaseName: "immo_db")
             .Options;
             var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
 
             var tenantFakeList = TestDataHelper.GetFakeTenantList();
             tenantFakeList.ForEach(t => context.tenant.Add(t));
