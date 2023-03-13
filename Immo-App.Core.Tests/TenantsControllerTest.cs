@@ -3,8 +3,6 @@ using Immo_App.Core.Data;
 using Immo_App.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using Moq.EntityFrameworkCore;
 
 namespace Immo_App.Core.Tests
 {
@@ -14,9 +12,16 @@ namespace Immo_App.Core.Tests
         public void TenantsControllerIndexTest()
         {
             // Arrange
-            var dbContextMock = new Mock<ImmoDbContext>();
-            dbContextMock.Setup(x => x.tenant).ReturnsDbSet(TestDataHelper.GetFakeTenantList());
-            var controller = new TenantsController(dbContextMock.Object);
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db")
+            .Options;
+            var context = new ImmoDbContext(options);
+
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            context.SaveChanges();
+
+            var controller = new TenantsController(context);
 
             // Act
             var result = controller.Index();
