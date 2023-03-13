@@ -59,9 +59,41 @@ namespace Immo_App.Core.Tests
 
             // Assert
             var apartmentAdded = context.apartment.Find(3);
-            // Check if ID and email of last added Apartment match what we except
+            // Check if ID and address of last added Apartment match what we except
             Assert.Equal(3, apartmentAdded.id);
             Assert.Equal("5 Rue Massena", apartmentAdded.address);
+        }
+
+        [Fact]
+        public void ApartmentsControllerUpdateTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(t => context.apartment.Add(t));
+            context.SaveChanges();
+
+            var controller = new ApartmentsController(context);
+            UpdateApartmentViewModel apartmentToUpdate = new()
+            { id = 2, address = "24 Rue Boreau", address_complement = "ZI Jean-Jacques", city = "Angers", zip_code = 49100 };
+
+            // Act
+            controller.Edit(apartmentToUpdate);
+            var result = controller.Index();
+            var viewresult = result.Result as ViewResult;
+            var model = (List<Apartment>)(viewresult.Model);
+
+            // Assert
+            var apartmentUpdated = context.apartment.Find(2);
+            // Check if ID, address and address addition of our edited Apartment match what we except
+            Assert.Equal(2, apartmentUpdated.id);
+            Assert.Equal("24 Rue Boreau", apartmentUpdated.address);
+            Assert.Equal("ZI Jean-Jacques", apartmentUpdated.address_complement);
         }
     }
 }
