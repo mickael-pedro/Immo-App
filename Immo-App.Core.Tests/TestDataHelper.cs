@@ -26,5 +26,28 @@ namespace Immo_App.Core.Tests
                 }
             };
         }
+
+        public static List<Apartment> GetFakeApartmentList()
+        {
+            return new List<Apartment>()
+            {
+                new Apartment
+                {
+                    id = 1,
+                    address = "29 Avenue du General Michel Bizot",
+                    address_complement = "App 31",
+                    city = "Escatalens",
+                    zip_code = 82700
+                },
+                new Apartment
+                {
+                    id = 2,
+                    address = "12 Rue Boreau",
+                    address_complement = "ZI Girard",
+                    city = "Angers",
+                    zip_code = 49100
+                }
+            };
+        }
     }
 }
