@@ -95,5 +95,32 @@ namespace Immo_App.Core.Tests
             Assert.Equal("24 Rue Boreau", apartmentUpdated.address);
             Assert.Equal("ZI Jean-Jacques", apartmentUpdated.address_complement);
         }
+
+        [Fact]
+        public void ApartmentsControllerDeleteTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(t => context.apartment.Add(t));
+            context.SaveChanges();
+
+            var controller = new ApartmentsController(context);
+
+            // Act
+            controller.Delete(1);
+            var result = controller.Index();
+            var viewresult = result.Result as ViewResult;
+            var model = (List<Apartment>)(viewresult.Model);
+
+            // Assert
+            Assert.Equal(1, model.Count);
+            Assert.Null(context.apartment.Find(1));
+        }
     }
 }
