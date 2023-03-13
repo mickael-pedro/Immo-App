@@ -85,5 +85,19 @@ namespace Immo_App.Core.Controllers
 
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var apartment = await immoDbContext.apartment.FirstOrDefaultAsync(x => x.id == id);
+
+            if (apartment != null)
+            {
+                immoDbContext.apartment.Remove(apartment);
+                await immoDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
