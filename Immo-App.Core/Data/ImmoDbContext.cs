@@ -13,6 +13,7 @@ namespace Immo_App.Core.Data
         {
         }
 
-        public virtual DbSet<Tenant> tenant { get; set; } 
+        public virtual DbSet<Tenant> tenant { get; set; }
+        public virtual DbSet<Apartment> apartment { get; set; }
     }
 }
