@@ -1,5 +1,4 @@
 ﻿using Immo_App.Core.Data;
-using Immo_App.Core.Models;
 using Immo_App.Core.Models.Apartment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
