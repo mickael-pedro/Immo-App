@@ -29,7 +29,7 @@
 				<td>@apartment.city</td>
 				<td>@apartment.zip_code</td>
 				<td><a href="apartments/Edit/@apartment.id">Modifier</a></td>
-				<td><a href="apartments/Delete/@apartment.id">Supprimer</a></td>
+				<td><a href="apartments/Delete/@apartment.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">Supprimer</a></td>
 			</tr>
 		}
 	</tbody>
