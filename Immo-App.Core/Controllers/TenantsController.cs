@@ -49,7 +49,7 @@ namespace Immo_App.Core.Controllers
 
             if (tenant != null)
             {
-                var viewModel = new UpdateTenantViewModel()
+                var viewModel = new Tenant()
                 {
                     id = tenant.id,
                     civility = tenant.civility,
@@ -65,7 +65,7 @@ namespace Immo_App.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateTenantViewModel model)
+        public async Task<IActionResult> Edit(Tenant model)
         {
             var tenant = await immoDbContext.tenant.FindAsync(model.id);
 

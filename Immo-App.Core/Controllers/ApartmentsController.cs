@@ -49,7 +49,7 @@ namespace Immo_App.Core.Controllers
 
             if (apartment != null)
             {
-                var viewModel = new UpdateApartmentViewModel()
+                var viewModel = new Apartment()
                 {
                     id = apartment.id,
                     address = apartment.address,
@@ -65,7 +65,7 @@ namespace Immo_App.Core.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdateApartmentViewModel model)
+        public async Task<IActionResult> Edit(Apartment model)
         {
             var apartment = await immoDbContext.apartment.FindAsync(model.id);
 
