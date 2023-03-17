@@ -1,0 +1,34 @@
+﻿@model List<Immo_App.Core.Models.RentalContract.IndexRentalContractViewModel>
+
+@{
+}
+
+<h1>Contrats de location</h1>
+
+<button type="button" class="btn btn-primary float-end" onclick="location.href='@Url.Action("Add", "RentalContracts")'">Créer un contrat de location</button>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Nom et Prénom du locataire</th>
+			<th>Adresse de l'apartement</th>
+			<th>Statut de la location</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var rentalContract in Model)
+		{
+			<tr>
+				<td>@rentalContract.id</td>
+				<td>@rentalContract.tenant_name</td>
+				<td>@rentalContract.apartment_address</td>
+				<td>@rentalContract.rental_status</td>
+				<td><a href="rentalContracts/Edit/@rentalContract.id">Modifier</a></td>
+				<td><a href="rentalContracts/Delete/@rentalContract.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">Supprimer</a></td>
+			</tr>
+		}
+	</tbody>
+</table>
