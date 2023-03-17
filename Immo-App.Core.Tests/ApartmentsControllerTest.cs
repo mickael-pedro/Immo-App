@@ -79,7 +79,7 @@ namespace Immo_App.Core.Tests
             context.SaveChanges();
 
             var controller = new ApartmentsController(context);
-            UpdateApartmentViewModel apartmentToUpdate = new()
+            Apartment apartmentToUpdate = new()
             { id = 2, address = "24 Rue Boreau", address_complement = "ZI Jean-Jacques", city = "Angers", zip_code = 49100 };
 
             // Act

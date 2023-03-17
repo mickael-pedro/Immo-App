@@ -80,7 +80,7 @@ namespace Immo_App.Core.Tests
             context.SaveChanges();
 
             var controller = new TenantsController(context);
-            UpdateTenantViewModel tenantToUpdate = new()
+            Tenant tenantToUpdate = new()
             { id = 1, civility = "Monsieur", first_name = "Paul", last_name = "Dupont", email = "paul@dupont.com" };
 
             // Act
