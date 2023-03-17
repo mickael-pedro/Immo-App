@@ -1,4 +1,5 @@
 ﻿using Immo_App.Core.Models.Apartment;
+using Immo_App.Core.Models.RentalContract;
 using Immo_App.Core.Models.Tenant;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,5 +17,6 @@ namespace Immo_App.Core.Data
 
         public virtual DbSet<Tenant> tenant { get; set; }
         public virtual DbSet<Apartment> apartment { get; set; }
+        public virtual DbSet<RentalContract> rental_contract { get; set; }
     }
 }
