@@ -6,5 +6,6 @@
         public string tenant_name { get; set; }
         public string apartment_address { get; set; }
         public string rental_status { get; set; }
+        public bool rental_active { get; set; }
     }
 }
