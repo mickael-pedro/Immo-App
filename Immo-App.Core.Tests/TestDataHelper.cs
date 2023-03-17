@@ -60,6 +60,7 @@ namespace Immo_App.Core.Tests
                 {
                     id = 1,
                     charges_price = 900,
+                    rent_price = 1000,
                     security_deposit_price = 1200,
                     security_deposit_status = "Non payé",
                     tenant_balance = 0,
@@ -71,6 +72,7 @@ namespace Immo_App.Core.Tests
                 {
                     id = 2,
                     charges_price = 600,
+                    rent_price = 800,
                     security_deposit_price = 1000,
                     security_deposit_status = "Payé",
                     tenant_balance = 0,
