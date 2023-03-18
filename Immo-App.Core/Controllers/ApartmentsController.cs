@@ -49,16 +49,7 @@ namespace Immo_App.Core.Controllers
 
             if (apartment != null)
             {
-                var viewModel = new Apartment()
-                {
-                    id = apartment.id,
-                    address = apartment.address,
-                    address_complement = apartment.address_complement,
-                    city = apartment.city,
-                    zip_code = apartment.zip_code
-                };
-
-                return View(viewModel);
+                return View(apartment);
             }
 
             return RedirectToAction("Index");
@@ -84,6 +75,7 @@ namespace Immo_App.Core.Controllers
 
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> Delete(int id)
         {
             var apartment = await immoDbContext.apartment.FirstOrDefaultAsync(x => x.id == id);

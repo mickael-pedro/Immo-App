@@ -49,16 +49,7 @@ namespace Immo_App.Core.Controllers
 
             if (tenant != null)
             {
-                var viewModel = new Tenant()
-                {
-                    id = tenant.id,
-                    civility = tenant.civility,
-                    first_name = tenant.first_name,
-                    last_name = tenant.last_name,
-                    email = tenant.email
-                };
-
-                return View(viewModel);
+                return View(tenant);
             }
 
             return RedirectToAction("Index");
