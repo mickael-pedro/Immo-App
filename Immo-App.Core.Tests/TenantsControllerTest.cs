@@ -54,9 +54,6 @@ namespace Immo_App.Core.Tests
 
             // Act
             controller.Add(tenantToAdd);
-            var result = controller.Index();
-            var viewresult = result.Result as ViewResult;
-            var model = (List<Tenant>)(viewresult.Model);
 
             // Assert
             var tenantAdded = context.tenant.Find(3);
@@ -85,9 +82,6 @@ namespace Immo_App.Core.Tests
 
             // Act
             controller.Edit(tenantToUpdate);
-            var result = controller.Index();
-            var viewresult = result.Result as ViewResult;
-            var model = (List<Tenant>)(viewresult.Model);
 
             // Assert
             var tenantUpdated = context.tenant.Find(1);
