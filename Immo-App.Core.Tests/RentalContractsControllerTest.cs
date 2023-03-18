@@ -125,5 +125,37 @@ namespace Immo_App.Core.Tests
             Assert.Equal(2, rentalContractEdited.fk_tenant_id);
             Assert.Equal(2, rentalContractEdited.fk_apartment_id);
         }
+
+        [Fact]
+        public void RentalContractsControllerDeleteTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            context.SaveChanges();
+
+            var controller = new RentalContractsController(context);
+
+            // Act
+            controller.Delete(2);
+            var result = controller.Index();
+            var viewresult = result.Result as ViewResult;
+            var model = (List<IndexRentalContractViewModel>)(viewresult.Model);
+
+            // Assert
+            // We deleted the second contract so there should only be one left and no second contract can be found
+            Assert.Equal(1, model.Count);
+            Assert.Null(context.rental_contract.Find(2));
+        }
     }
 }
