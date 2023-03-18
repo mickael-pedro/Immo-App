@@ -66,5 +66,52 @@ namespace Immo_App.Core.Controllers
             await immoDbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var rentalContract = await immoDbContext.rental_contract.FirstOrDefaultAsync(x => x.id == id);
+
+            if (rentalContract != null)
+            {
+                var viewModel = new EditRentalContractViewModel()
+                {
+                    id = rentalContract.id,
+                    charges_price = rentalContract.charges_price,
+                    rent_price = rentalContract.rent_price,
+                    security_deposit_price = rentalContract.security_deposit_price,
+                    security_deposit_status = rentalContract.security_deposit_status,
+                    tenant_balance = rentalContract.tenant_balance,
+                    rental_status = rentalContract.rental_status,
+                    rental_active = rentalContract.rental_active,
+                    apartment = await immoDbContext.apartment.FirstOrDefaultAsync(a => a.id == rentalContract.fk_apartment_id),
+                    tenant = await immoDbContext.tenant.FirstOrDefaultAsync(t => t.id == rentalContract.fk_tenant_id)
+                };
+
+                return View(viewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(RentalContract model)
+        {
+            var rentalContract = await immoDbContext.rental_contract.FindAsync(model.id);
+
+            if (rentalContract != null)
+            {
+                // We only change what the user should be able to change from the interface
+                rentalContract.charges_price = model.charges_price;
+                rentalContract.rent_price = model.rent_price;
+                rentalContract.security_deposit_price = model.security_deposit_price;
+
+                await immoDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
