@@ -65,6 +65,7 @@ namespace Immo_App.Core.Tests
                     security_deposit_status = "Non payé",
                     tenant_balance = 0,
                     rental_status = "En attente paiement dépot de garantie",
+                    rental_active = true,
                     fk_tenant_id = 1,
                     fk_apartment_id = 1
                 },
@@ -75,8 +76,9 @@ namespace Immo_App.Core.Tests
                     rent_price = 800,
                     security_deposit_price = 1000,
                     security_deposit_status = "Payé",
-                    tenant_balance = 0,
+                    tenant_balance = 200,
                     rental_status = "En attente état des lieux entrée",
+                    rental_active = true,
                     fk_tenant_id = 2,
                     fk_apartment_id = 2
                 }
