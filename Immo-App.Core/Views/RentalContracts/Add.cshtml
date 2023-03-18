@@ -1,0 +1,54 @@
+﻿@model Immo_App.Core.Models.RentalContract.AddRentalContractViewModel
+@{
+}
+
+<h1 class=" mb-4">Ajouter un nouveau locataire</h1>
+
+<form method="post" action="Add">
+    <div class="form-group mt-3">
+        <label for="apartment">Appartement</label>
+        <select class="form-control" id="fk_apartment_id" asp-for="fk_apartment_id">
+            <option value="">Selectionner un appartement</option>
+            @foreach (var apartment in Model.available_apartments)
+            {
+                <option value="@apartment.id">@apartment.address @apartment.zip_code @apartment.city</option>
+            }
+            @if (!Model.available_apartments.Any())
+            {
+                <option value="">Aucun appartement disponible</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="tenant">Locataire</label>
+        <select class="form-control" id="fk_tenant_id" asp-for="fk_tenant_id">
+            <option value="">Selectionner un locataire</option>
+            @foreach (var tenant in Model.tenants)
+            {
+                <option value="@tenant.id">@tenant.first_name @tenant.last_name - @tenant.email</option>
+            }
+            @if (!Model.tenants.Any())
+            {
+                <option value="">Aucun locataire disponible</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="charges_price">Prix des charges</label>
+        <input type="text" class="form-control" id="charges_price" placeholder="Prix des charges" asp-for="charges_price">
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="rent_price">Prix du loyer</label>
+        <input type="text" class="form-control" id="rent_price" placeholder="Prix du loyer" asp-for="rent_price">
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="security_deposit_price">Montant du dépôt de garantie</label>
+        <input type="text" class="form-control" id="security_deposit_price" placeholder="Montant du dépôt de garantie" asp-for="security_deposit_price">
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-4">Envoyer</button>
+</form>
