@@ -1,7 +1,5 @@
 ﻿using Immo_App.Core.Data;
-using Immo_App.Core.Models.Apartment;
 using Immo_App.Core.Models.RentalContract;
-using Immo_App.Core.Models.Tenant;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -106,6 +104,21 @@ namespace Immo_App.Core.Controllers
                 rentalContract.rent_price = model.rent_price;
                 rentalContract.security_deposit_price = model.security_deposit_price;
 
+                await immoDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var rentalContract = await immoDbContext.rental_contract.FirstOrDefaultAsync(x => x.id == id);
+
+            if (rentalContract != null)
+            {
+                immoDbContext.rental_contract.Remove(rentalContract);
                 await immoDbContext.SaveChangesAsync();
 
                 return RedirectToAction("Index");
