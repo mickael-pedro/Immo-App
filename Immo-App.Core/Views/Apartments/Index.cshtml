@@ -25,7 +25,15 @@
 			<tr>
 				<td>@apartment.id</td>
 				<td>@apartment.address</td>
-				<td>@apartment.address_complement</td>
+				<td>@if (apartment.address_complement != null)
+					{
+						@apartment.address_complement
+					}
+					else
+					{
+						@:Aucun
+					}
+				</td>
 				<td>@apartment.city</td>
 				<td>@apartment.zip_code</td>
 				<td><a href="apartments/Edit/@apartment.id">Modifier</a></td>
