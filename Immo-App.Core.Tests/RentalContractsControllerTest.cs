@@ -157,5 +157,43 @@ namespace Immo_App.Core.Tests
             Assert.Equal(1, model.Count);
             Assert.Null(context.rental_contract.Find(2));
         }
+
+        [Fact]
+        public void RentalContractsControllerDetailTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            context.SaveChanges();
+
+            var controller = new RentalContractsController(context);
+
+            // Act
+            var result = controller.Detail(2);
+            var viewresult = result.Result as ViewResult;
+            var model = (DetailRentalContractViewModel)(viewresult.Model);
+
+            // Assert
+            // We deleted the second contract so there should only be one left and no second contract can be found
+            Assert.Equal(600, model.charges_price);
+            Assert.Equal(800, model.rent_price);
+            Assert.Equal(1000, model.security_deposit_price);
+            Assert.Equal("Payé", model.security_deposit_status);
+            Assert.Equal(200, model.tenant_balance);
+            Assert.Equal("En attente état des lieux entrée", model.rental_status);
+            Assert.Equal(true, model.rental_active);
+            Assert.Equal("Madame Jeanne Pasquier", model.tenant_name);
+            Assert.Equal("12 Rue Boreau Appartement 13, 49100 Angers", model.apartment_address);
+        }
     }
 }
