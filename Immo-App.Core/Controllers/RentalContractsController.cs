@@ -23,7 +23,7 @@ namespace Immo_App.Core.Controllers
                                    {
                                        id = rc.id,
                                        tenant_name = t.first_name + " " + t.last_name,
-                                       apartment_address = a.address + ", " + a.zip_code + " " + a.city,
+                                       apartment_address = a.address + (a.address_complement != null ? " " + a.address_complement : null) + ", " + a.zip_code + " " + a.city,
                                        rental_status = rc.rental_status
                                    }).OrderBy(rc => rc.id).ToList();
 
