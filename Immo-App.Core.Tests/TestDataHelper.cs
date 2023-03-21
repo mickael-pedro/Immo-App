@@ -37,7 +37,6 @@ namespace Immo_App.Core.Tests
                 {
                     id = 1,
                     address = "29 Avenue du General Michel Bizot",
-                    address_complement = "App 31",
                     city = "Escatalens",
                     zip_code = 82700
                 },
@@ -45,7 +44,7 @@ namespace Immo_App.Core.Tests
                 {
                     id = 2,
                     address = "12 Rue Boreau",
-                    address_complement = "ZI Girard",
+                    address_complement = "Appartement 13",
                     city = "Angers",
                     zip_code = 49100
                 }
