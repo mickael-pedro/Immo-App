@@ -126,5 +126,29 @@ namespace Immo_App.Core.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var rentalContractData = await (from rc in immoDbContext.rental_contract
+                                   where rc.id == id
+                                   join t in immoDbContext.tenant on rc.fk_tenant_id equals t.id
+                                   join a in immoDbContext.apartment on rc.fk_apartment_id equals a.id
+                                   select new DetailRentalContractViewModel
+                                   {
+                                       id = rc.id,
+                                       charges_price = rc.charges_price,
+                                       rent_price = rc.rent_price,
+                                       security_deposit_price = rc.security_deposit_price,
+                                       security_deposit_status = rc.security_deposit_status,
+                                       tenant_balance = rc.tenant_balance,
+                                       rental_status = rc.rental_status,
+                                       rental_active = rc.rental_active,
+                                       tenant_name = t.civility + " " + t.first_name + " " + t.last_name,
+                                       tenant_email = t.email,
+                                       apartment_address = a.address + (a.address_complement != null ? " " + a.address_complement : null) + ", " + a.zip_code + " " + a.city,
+                                   }).SingleAsync();
+
+            return View(rentalContractData);
+        }
     }
 }

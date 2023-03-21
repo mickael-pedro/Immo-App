@@ -1,0 +1,54 @@
+﻿@model Immo_App.Core.Models.RentalContract.DetailRentalContractViewModel
+
+@{
+}
+
+<style>
+	.d-flex > div {
+		flex-basis: 33.333333%;
+	}
+</style>
+
+<h1 class="mb-4">Contrats de location N°@Model.id</h1>
+
+<div class="d-flex flex-wrap">
+	<div>
+		<h3>Locataire</h3>
+		<p>@Model.tenant_name - @Model.tenant_email</p>
+	</div>
+
+	<div>
+		<h3>Apartement</h3>
+		<p>@Model.apartment_address</p>
+	</div>
+
+	<div>
+		<h3>Statut de la location</h3>
+		<p>@Model.rental_status</p>
+	</div>
+
+	<div>
+		<h3>Statut du dépôt de garantie</h3>
+		<p>@Model.security_deposit_status</p>
+	</div>
+
+	<div>
+		<h3>Prix du dépôt de garantie</h3>
+		<p>@Model.security_deposit_price</p>
+	</div>
+
+	<div>
+		<h4>Solde du locataire</h4>
+		<p>@Model.tenant_balance</p>
+	</div>
+
+	<div>
+		<h4>Prix des charges</h4>
+		<p>@Model.charges_price €</p>
+	</div>
+
+	<div>
+		<h4>Prix du loyer</h4>
+		<p>@Model.rent_price €</p>
+	</div>
+</div>

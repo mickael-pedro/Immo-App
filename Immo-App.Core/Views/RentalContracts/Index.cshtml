@@ -16,6 +16,7 @@
 			<th>Statut de la location</th>
 			<th></th>
 			<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -26,6 +27,7 @@
 				<td>@rentalContract.tenant_name</td>
 				<td>@rentalContract.apartment_address</td>
 				<td>@rentalContract.rental_status</td>
+				<td><a href="rentalContracts/Detail/@rentalContract.id">Détails</a></td>
 				<td><a href="rentalContracts/Edit/@rentalContract.id">Modifier</a></td>
 				<td><a href="rentalContracts/Delete/@rentalContract.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">Supprimer</a></td>
 			</tr>
