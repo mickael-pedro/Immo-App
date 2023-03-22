@@ -9,9 +9,9 @@
 	}
 </style>
 
-<h1 class="mb-4">Contrats de location N°@Model.id</h1>
+<h1 class="mb-4">Contrat de location N°@Model.id</h1>
 
-<div class="d-flex flex-wrap">
+<div class="d-flex flex-wrap mb-4">
 	<div>
 		<h3>Locataire</h3>
 		<p>@Model.tenant_name - @Model.tenant_email</p>
@@ -34,21 +34,55 @@
 
 	<div>
 		<h3>Prix du dépôt de garantie</h3>
-		<p>@Model.security_deposit_price</p>
+		<p>@Model.security_deposit_price€</p>
 	</div>
 
 	<div>
 		<h4>Solde du locataire</h4>
-		<p>@Model.tenant_balance</p>
+		<p>@Model.tenant_balance€</p>
 	</div>
 
 	<div>
 		<h4>Prix des charges</h4>
-		<p>@Model.charges_price €</p>
+		<p>@Model.charges_price€</p>
 	</div>
 
 	<div>
 		<h4>Prix du loyer</h4>
-		<p>@Model.rent_price €</p>
+		<p>@Model.rent_price€</p>
+	</div>
+</div>
+
+<div class="d-flex flex-wrap">
+	<div>
+		<h2 class="mb-4">États des lieux</h2>
+
+		<button type="button" class="btn btn-primary float-end" onclick="location.href='../../inventoryFixtures/Add/@Model.id'">Créer un contrat de location</button>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Date</th>
+					<th>Type</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var inventoryFixture in Model.inventory_fixtures)
+				{
+					<tr>
+						<td>@inventoryFixture.id</td>
+						<td>@inventoryFixture.date_inv.ToString("dd/MM/yyyy")</td>
+						<td>@inventoryFixture.type</td>
+						<td><a href="../../inventoryFixtures/Notes/@inventoryFixture.id">Notes</a></td>
+						<td><a href="../../inventoryFixtures/Edit/@inventoryFixture.id">Modifier</a></td>
+						<td><a href="../../inventoryFixtures/Delete/@inventoryFixture.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">Supprimer</a></td>
+					</tr>
+				}
+			</tbody>
+		</table>
 	</div>
 </div>

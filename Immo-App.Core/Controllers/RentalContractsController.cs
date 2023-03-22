@@ -148,6 +148,8 @@ namespace Immo_App.Core.Controllers
                                        apartment_address = a.address + (a.address_complement != null ? " " + a.address_complement : null) + ", " + a.zip_code + " " + a.city,
                                    }).SingleAsync();
 
+            rentalContractData.inventory_fixtures = immoDbContext.inventory_fixture.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToList();
+
             return View(rentalContractData);
         }
     }
