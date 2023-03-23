@@ -77,5 +77,35 @@ namespace Immo_App.Core.Tests
             Assert.Equal("Test Edit", inventoryFixtureAdded.notes);
             Assert.Equal(inventoryFixtureBeforeEdit.fk_rental_contract_id, inventoryFixtureAdded.fk_rental_contract_id);
         }
+
+        [Fact]
+        public void InventoryFixturesControllerDeleteTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            var inventoryFixtureFakeList = TestDataHelper.GetFakeInventoryFixtureList();
+            inventoryFixtureFakeList.ForEach(i => context.inventory_fixture.Add(i));
+            context.SaveChanges();
+
+            var controller = new InventoryFixturesController(context);
+
+            // Act
+            controller.Delete(1);
+
+            // Assert
+            // Assert that we can't find the inventory fixture anymore
+            Assert.Null(context.inventory_fixture.Find(1));
+        }
     }
 }
