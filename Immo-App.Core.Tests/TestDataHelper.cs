@@ -1,4 +1,5 @@
 ﻿using Immo_App.Core.Models.Apartment;
+using Immo_App.Core.Models.InventoryFixture;
 using Immo_App.Core.Models.RentalContract;
 using Immo_App.Core.Models.Tenant;
 
@@ -80,6 +81,21 @@ namespace Immo_App.Core.Tests
                     rental_active = true,
                     fk_tenant_id = 2,
                     fk_apartment_id = 2
+                }
+            };
+        }
+
+        public static List<InventoryFixture> GetFakeInventoryFixtureList()
+        {
+            return new List<InventoryFixture>()
+            {
+                new InventoryFixture
+                {
+                    id = 1,
+                    date_inv = DateTime.Parse("2023-01-06"),
+                    type = "Entrée",
+                    notes = "Test Fake List",
+                    fk_rental_contract_id = 2
                 }
             };
         }
