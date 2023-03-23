@@ -68,10 +68,25 @@ namespace Immo_App.Core.Controllers
 
                 await immoDbContext.SaveChangesAsync();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Detail", "rentalContracts", new { id = inventoryFixture.fk_rental_contract_id });
             }
 
-            return RedirectToAction("Detail", "rentalContracts", new { id = inventoryFixture.fk_rental_contract_id });
+            return RedirectToAction("Index", "rentalContracts");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var inventoryFixture = await immoDbContext.inventory_fixture.FirstOrDefaultAsync(x => x.id == id);
+
+            if (inventoryFixture != null)
+            {
+                immoDbContext.inventory_fixture.Remove(inventoryFixture);
+                await immoDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Detail", "rentalContracts", new { id = inventoryFixture.fk_rental_contract_id });
+            }
+
+            return RedirectToAction("Index", "rentalContracts");
         }
     }
 }
