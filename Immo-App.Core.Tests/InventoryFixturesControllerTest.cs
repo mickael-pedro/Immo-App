@@ -101,6 +101,8 @@ namespace Immo_App.Core.Tests
             var controller = new InventoryFixturesController(context);
 
             // Act
+            // Check if we can find the inventory fixture before deleting
+            Assert.NotNull(context.inventory_fixture.Find(1));
             controller.Delete(1);
 
             // Assert
