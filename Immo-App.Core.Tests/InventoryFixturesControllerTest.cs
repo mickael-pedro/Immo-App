@@ -70,12 +70,12 @@ namespace Immo_App.Core.Tests
             controller.Edit(inventoryFixtureToEdit);
 
             // Assert
-            var inventoryFixtureAdded = context.inventory_fixture.Find(1);
+            var inventoryFixtureEdited = context.inventory_fixture.Find(1);
             // Assert that the information of the inventory fixture edited match what we except
-            Assert.Equal(DateTime.Parse("2023-02-04").ToUniversalTime(), inventoryFixtureAdded.date_inv);
-            Assert.Equal(inventoryFixtureBeforeEdit.type, inventoryFixtureAdded.type);
-            Assert.Equal("Test Edit", inventoryFixtureAdded.notes);
-            Assert.Equal(inventoryFixtureBeforeEdit.fk_rental_contract_id, inventoryFixtureAdded.fk_rental_contract_id);
+            Assert.Equal(DateTime.Parse("2023-02-04").ToUniversalTime(), inventoryFixtureEdited.date_inv);
+            Assert.Equal(inventoryFixtureBeforeEdit.type, inventoryFixtureEdited.type);
+            Assert.Equal("Test Edit", inventoryFixtureEdited.notes);
+            Assert.Equal(inventoryFixtureBeforeEdit.fk_rental_contract_id, inventoryFixtureEdited.fk_rental_contract_id);
         }
 
         [Fact]
