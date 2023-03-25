@@ -1,5 +1,6 @@
 ﻿using Immo_App.Core.Models.Apartment;
 using Immo_App.Core.Models.InventoryFixture;
+using Immo_App.Core.Models.Invoice;
 using Immo_App.Core.Models.RentalContract;
 using Immo_App.Core.Models.Tenant;
 
@@ -95,6 +96,31 @@ namespace Immo_App.Core.Tests
                     date_inv = DateTime.Parse("2023-01-06"),
                     type = "Entrée",
                     notes = "Test Fake List",
+                    fk_rental_contract_id = 2
+                }
+            };
+        }
+
+        public static List<Invoice> GetFakeInvoiceList()
+        {
+            return new List<Invoice>()
+            {
+                new Invoice
+                {
+                    id = 1,
+                    date_invoice = DateTime.Parse("2023-02-05"),
+                    amount = 350,
+                    type = "Loyer",
+                    status = "Non payé",
+                    fk_rental_contract_id = 2
+                },
+                new Invoice
+                {
+                    id = 2,
+                    date_invoice = DateTime.Parse("2023-03-05"),
+                    amount = 350,
+                    type = "Loyer",
+                    status = "Non payé",
                     fk_rental_contract_id = 2
                 }
             };
