@@ -149,6 +149,7 @@ namespace Immo_App.Core.Controllers
                                    }).SingleAsync();
 
             rentalContractData.inventory_fixtures = immoDbContext.inventory_fixture.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToList();
+            rentalContractData.invoices = immoDbContext.invoice.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToList();
 
             return View(rentalContractData);
         }
