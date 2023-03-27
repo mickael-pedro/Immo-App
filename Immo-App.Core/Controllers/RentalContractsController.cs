@@ -148,8 +148,9 @@ namespace Immo_App.Core.Controllers
                                        apartment_address = a.address + (a.address_complement != null ? " " + a.address_complement : null) + ", " + a.zip_code + " " + a.city,
                                    }).SingleAsync();
 
-            rentalContractData.inventory_fixtures = immoDbContext.inventory_fixture.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToList();
-            rentalContractData.invoices = immoDbContext.invoice.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToList();
+            rentalContractData.inventory_fixtures = await immoDbContext.inventory_fixture.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToListAsync();
+            rentalContractData.invoices = await immoDbContext.invoice.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToListAsync();
+            rentalContractData.payments = await immoDbContext.payment.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToListAsync();
 
             return View(rentalContractData);
         }
