@@ -1,6 +1,7 @@
 ﻿using Immo_App.Core.Models.Apartment;
 using Immo_App.Core.Models.InventoryFixture;
 using Immo_App.Core.Models.Invoice;
+using Immo_App.Core.Models.Payment;
 using Immo_App.Core.Models.RentalContract;
 using Immo_App.Core.Models.Tenant;
 
@@ -112,7 +113,7 @@ namespace Immo_App.Core.Tests
                     amount = 350,
                     type = "Loyer",
                     status = "Non payé",
-                    fk_rental_contract_id = 2
+                    fk_rental_contract_id = 1
                 },
                 new Invoice
                 {
@@ -121,6 +122,31 @@ namespace Immo_App.Core.Tests
                     amount = 350,
                     type = "Loyer",
                     status = "Non payé",
+                    fk_rental_contract_id = 2
+                }
+            };
+        }
+
+        public static List<Payment> GetFakePaymentList()
+        {
+            return new List<Payment>()
+            {
+                new Payment
+                {
+                    id = 1,
+                    date_payment = DateTime.Parse("2023-02-08"),
+                    amount = 300,
+                    origin = "Locataire",
+                    fk_invoice_id = 1,
+                    fk_rental_contract_id = 1
+                },
+                new Payment
+                {
+                    id = 2,
+                    date_payment = DateTime.Parse("2023-03-06"),
+                    amount = 350,
+                    origin = "Caisse d’allocation familiale",
+                    fk_invoice_id = 2,
                     fk_rental_contract_id = 2
                 }
             };
