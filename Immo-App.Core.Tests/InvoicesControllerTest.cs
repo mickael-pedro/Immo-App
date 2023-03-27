@@ -76,7 +76,7 @@ namespace Immo_App.Core.Tests
             Assert.Equal(DateTime.Parse("2023-02-04").ToUniversalTime(), invoiceEdited.date_invoice);
             Assert.Equal(400, invoiceEdited.amount);
             Assert.Equal(invoiceBeforeEdit.type, invoiceEdited.type);
-            Assert.Equal(invoiceEdited.status, invoiceEdited.status);
+            Assert.Equal(invoiceBeforeEdit.status, invoiceEdited.status);
             Assert.Equal(invoiceBeforeEdit.fk_rental_contract_id, invoiceEdited.fk_rental_contract_id);
         }
 
