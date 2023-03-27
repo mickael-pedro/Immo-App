@@ -15,5 +15,6 @@
         public string apartment_address { get; set; }
         public List<InventoryFixture.InventoryFixture> inventory_fixtures { get; set; }
         public List<Invoice.Invoice> invoices { get; set; }
+        public List<Payment.Payment> payments { get; set; }
     }
 }
