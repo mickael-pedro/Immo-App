@@ -125,4 +125,39 @@
 			</tbody>
 		</table>
 	</div>
+
+	<div class="pe-5">
+		<div class="d-flex justify-content-between">
+			<h2 class="mb-4">Paiements</h2>
+			<span>
+				<button type="button" class="btn btn-primary float-end" onclick="location.href='../../payments/Add/@Model.id'">Ajouter paiement</button>
+			</span>
+		</div>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Date</th>
+					<th>Montant</th>
+					<th>Origine</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var payment in Model.payments)
+				{
+					<tr>
+						<td>@payment.id</td>
+						<td>@payment.date_payment.ToString("dd/MM/yyyy")</td>
+						<td>@payment.amount€</td>
+						<td>@payment.origin</td>
+						<td><a href="../../payments/Edit/@payment.id">M</a></td>
+						<td><a href="../../payments/Delete/@payment.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">S</a></td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 </div>
