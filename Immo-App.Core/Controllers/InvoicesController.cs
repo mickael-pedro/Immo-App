@@ -1,5 +1,7 @@
 ﻿using Immo_App.Core.Data;
+using Immo_App.Core.Helpers;
 using Immo_App.Core.Models.Invoice;
+using Immo_App.Core.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,6 +40,10 @@ namespace Immo_App.Core.Controllers
 
             await immoDbContext.invoice.AddAsync(invoice);
             await immoDbContext.SaveChangesAsync();
+
+            var helper = new UpdateStatusBalanceHelper(immoDbContext);
+            await helper.UpdateBalance(invoice.fk_rental_contract_id);
+
             return RedirectToAction("Detail", "rentalContracts", new { id = addInvoice.fk_rental_contract_id });
         }
 
@@ -61,6 +67,8 @@ namespace Immo_App.Core.Controllers
 
             if (invoice != null)
             {
+                var oldInvoiceType = invoice.type;
+
                 invoice.id = model.id;
                 invoice.date_invoice = model.date_invoice.ToUniversalTime();
                 invoice.amount = model.amount;
@@ -69,6 +77,17 @@ namespace Immo_App.Core.Controllers
                 invoice.fk_rental_contract_id = model.fk_rental_contract_id;
 
                 await immoDbContext.SaveChangesAsync();
+
+                var helper = new UpdateStatusBalanceHelper(immoDbContext);
+
+                // If the invoice type changed it may have been for a security deposit
+                // then update the rental status since it may not be paid anymore
+                if (oldInvoiceType == "Dépôt de garantie")
+                {
+                    await helper.UpdateRentalStatus(invoice.fk_rental_contract_id);
+                }
+
+                await helper.UpdateInvoiceStatus(invoice.id);
 
                 return RedirectToAction("Detail", "rentalContracts", new { id = invoice.fk_rental_contract_id });
             }
@@ -84,6 +103,17 @@ namespace Immo_App.Core.Controllers
             {
                 immoDbContext.invoice.Remove(invoice);
                 await immoDbContext.SaveChangesAsync();
+
+                var helper = new UpdateStatusBalanceHelper(immoDbContext);
+
+                // If the invoice used to be for a security deposit, then update the rental status
+                // since it may have changed the status
+                if (invoice.type == "Dépôt de garantie")
+                {
+                    await helper.UpdateRentalStatus(invoice.fk_rental_contract_id);
+                }
+
+                await helper.UpdateBalance(invoice.fk_rental_contract_id);
 
                 return RedirectToAction("Detail", "rentalContracts", new { id = invoice.fk_rental_contract_id });
             }

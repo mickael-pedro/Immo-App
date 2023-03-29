@@ -1,5 +1,5 @@
 ﻿using Immo_App.Core.Data;
-using Immo_App.Core.Models.Invoice;
+using Immo_App.Core.Helpers;
 using Immo_App.Core.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +40,10 @@ namespace Immo_App.Core.Controllers
 
             await immoDbContext.payment.AddAsync(payment);
             await immoDbContext.SaveChangesAsync();
+
+            var helper = new UpdateStatusBalanceHelper(immoDbContext);
+            await helper.UpdateInvoiceStatus(addPayment.fk_invoice_id);
+
             return RedirectToAction("Detail", "rentalContracts", new { id = addPayment.fk_rental_contract_id });
         }
 
@@ -74,6 +78,8 @@ namespace Immo_App.Core.Controllers
 
             if (payment != null)
             {
+                var oldInvoiceId = payment.fk_invoice_id;
+
                 payment.id = model.id;
                 payment.date_payment = model.date_payment.ToUniversalTime();
                 payment.amount = model.amount;
@@ -82,6 +88,15 @@ namespace Immo_App.Core.Controllers
                 payment.fk_rental_contract_id = model.fk_rental_contract_id;
 
                 await immoDbContext.SaveChangesAsync();
+
+                var helper = new UpdateStatusBalanceHelper(immoDbContext);
+
+                if (oldInvoiceId != payment.fk_invoice_id)
+                {
+                    await helper.UpdateInvoiceStatus(oldInvoiceId);
+                }
+
+                await helper.UpdateInvoiceStatus(model.fk_invoice_id);
 
                 return RedirectToAction("Detail", "rentalContracts", new { id = payment.fk_rental_contract_id });
             }
@@ -97,6 +112,9 @@ namespace Immo_App.Core.Controllers
             {
                 immoDbContext.payment.Remove(payment);
                 await immoDbContext.SaveChangesAsync();
+
+                var helper = new UpdateStatusBalanceHelper(immoDbContext);
+                await helper.UpdateInvoiceStatus(payment.fk_invoice_id);
 
                 return RedirectToAction("Detail", "rentalContracts", new { id = payment.fk_rental_contract_id });
             }

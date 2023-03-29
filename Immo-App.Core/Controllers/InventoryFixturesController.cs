@@ -1,4 +1,5 @@
 ﻿using Immo_App.Core.Data;
+using Immo_App.Core.Helpers;
 using Immo_App.Core.Models.InventoryFixture;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,10 @@ namespace Immo_App.Core.Controllers
 
             await immoDbContext.inventory_fixture.AddAsync(inventoryFixture);
             await immoDbContext.SaveChangesAsync();
+
+            var helper = new UpdateStatusBalanceHelper(immoDbContext);
+            await helper.UpdateRentalStatus(inventoryFixture.fk_rental_contract_id);
+
             return RedirectToAction("Detail", "rentalContracts", new { id = addInventoryFixture.fk_rental_contract_id });
         }
 
@@ -68,6 +73,9 @@ namespace Immo_App.Core.Controllers
 
                 await immoDbContext.SaveChangesAsync();
 
+                var helper = new UpdateStatusBalanceHelper(immoDbContext);
+                await helper.UpdateRentalStatus(inventoryFixture.fk_rental_contract_id);
+
                 return RedirectToAction("Detail", "rentalContracts", new { id = inventoryFixture.fk_rental_contract_id });
             }
 
@@ -82,6 +90,9 @@ namespace Immo_App.Core.Controllers
             {
                 immoDbContext.inventory_fixture.Remove(inventoryFixture);
                 await immoDbContext.SaveChangesAsync();
+
+                var helper = new UpdateStatusBalanceHelper(immoDbContext);
+                await helper.UpdateRentalStatus(inventoryFixture.fk_rental_contract_id);
 
                 return RedirectToAction("Detail", "rentalContracts", new { id = inventoryFixture.fk_rental_contract_id });
             }
