@@ -65,5 +65,46 @@ namespace Immo_App.Core.Helpers
 
             return;
         }
+
+        public async Task UpdateInvoiceStatus(int invoiceId)
+        {
+            var invoice = immoDbContext.invoice.Find(invoiceId);
+
+            if (invoice != null)
+            {
+                var sumPayments = immoDbContext.payment.Where(p => p.fk_invoice_id == invoiceId).Sum(p => p.amount);
+
+                // Update tenant balance since there has been a changement in the payments
+                await UpdateBalance(invoice.fk_rental_contract_id);
+
+                // Check if the sum of all payments to the concerned Invoice is equal or greater than the Invoice amount
+                if (sumPayments >= invoice.amount)
+                {
+                    invoice.status = "Payée";
+                }
+                // If the sum of all payments is less than the Invoice amount but above 0 then it's partially paid
+                else if (sumPayments > 0) 
+                {
+                    invoice.status = "Partiellement payée";
+                }
+                // If none the conditions passed then nothing has been paid
+                else
+                {
+                    invoice.status = "Non payée";
+                }
+
+                await immoDbContext.SaveChangesAsync();
+
+                // If it's an invoice for security deposit then update the contract status
+                if (invoice.type == "Dépôt de garantie")
+                {
+                    await UpdateRentalStatus(invoice.fk_rental_contract_id);
+                }
+
+                return;
+            }
+
+            return;
+        }
     }
 }
