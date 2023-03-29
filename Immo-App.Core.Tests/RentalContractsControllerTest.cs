@@ -13,7 +13,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_rental")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -39,7 +39,7 @@ namespace Immo_App.Core.Tests
             Assert.Equal("Jean Dupont", model[0].tenant_name);
             Assert.Equal("29 Avenue du General Michel Bizot, 82700 Escatalens", model[0].apartment_address);
             Assert.Equal("Jeanne Pasquier", model[1].tenant_name);
-            Assert.Equal("12 Rue Boreau, 49100 Angers", model[1].apartment_address);
+            Assert.Equal("12 Rue Boreau Appartement 13, 49100 Angers", model[1].apartment_address);
         }
 
         [Fact]
@@ -47,7 +47,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_rental")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -82,7 +82,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_rental")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -131,7 +131,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_rental")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -163,7 +163,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_rental")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();

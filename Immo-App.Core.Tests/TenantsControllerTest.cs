@@ -13,7 +13,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_tenant")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -39,7 +39,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_tenant")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -67,7 +67,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_tenant")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();

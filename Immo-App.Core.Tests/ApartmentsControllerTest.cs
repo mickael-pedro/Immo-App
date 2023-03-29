@@ -12,7 +12,7 @@ namespace Immo_App.Core.Tests
         public void ApartmentsControllerIndexTest()
         {
 			var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_apartment")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -38,7 +38,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_apartment")
             .Options;
             var context = new ImmoDbContext(options);
 			context.Database.EnsureDeleted();
@@ -66,7 +66,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_apartment")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
@@ -95,7 +95,7 @@ namespace Immo_App.Core.Tests
         {
             // Arrange
             var options = new DbContextOptionsBuilder<ImmoDbContext>()
-            .UseInMemoryDatabase(databaseName: "immo_db")
+            .UseInMemoryDatabase(databaseName: "immo_db_apartment")
             .Options;
             var context = new ImmoDbContext(options);
             context.Database.EnsureDeleted();
