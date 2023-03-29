@@ -75,5 +75,41 @@ namespace Immo_App.Core.Tests
             // Assert that the Status has been correctly updated
             Assert.Equal("En cours", rentalContract.rental_status);
         }
+
+        [Fact]
+        public void UpdateInvoiceStatusTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db_status_balance")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            var inventoryFixtureFakeList = TestDataHelper.GetFakeInventoryFixtureList();
+            inventoryFixtureFakeList.ForEach(i => context.inventory_fixture.Add(i));
+            var invoiceFakeList = TestDataHelper.GetFakeInvoiceList();
+            invoiceFakeList.ForEach(i => context.invoice.Add(i));
+            var paymentFakeList = TestDataHelper.GetFakePaymentList();
+            paymentFakeList.ForEach(i => context.payment.Add(i));
+            context.SaveChanges();
+
+            var helper = new UpdateStatusBalanceHelper(context);
+
+            // Act
+            // Balance of rental contract is "Non payée"
+            helper.UpdateInvoiceStatus(3);
+
+            // Assert
+            var invoice = context.invoice.Find(3);
+            // Assert that the invoice status has been correctly updated
+            Assert.Equal("Payée", invoice.status);
+        }
     }
 }
