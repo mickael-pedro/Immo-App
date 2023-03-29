@@ -1,4 +1,5 @@
 using Immo_App.Core.Data;
+using Immo_App.Core.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Immo_App.Core.Tests
