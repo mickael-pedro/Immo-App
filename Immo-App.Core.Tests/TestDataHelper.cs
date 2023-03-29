@@ -66,7 +66,7 @@ namespace Immo_App.Core.Tests
                     security_deposit_price = 1200,
                     security_deposit_status = "Non payé",
                     tenant_balance = 0,
-                    rental_status = "En attente paiement dépot de garantie",
+                    rental_status = "En attente paiement dépôt de garantie",
                     rental_active = true,
                     fk_tenant_id = 1,
                     fk_apartment_id = 1
@@ -112,16 +112,25 @@ namespace Immo_App.Core.Tests
                     date_invoice = DateTime.Parse("2023-02-05"),
                     amount = 350,
                     type = "Loyer",
-                    status = "Non payé",
+                    status = "Non payée",
                     fk_rental_contract_id = 1
                 },
                 new Invoice
                 {
                     id = 2,
                     date_invoice = DateTime.Parse("2023-03-05"),
-                    amount = 350,
+                    amount = 1000,
+                    type = "Dépôt de garantie",
+                    status = "Payée",
+                    fk_rental_contract_id = 2
+                },
+                new Invoice
+                {
+                    id = 3,
+                    date_invoice = DateTime.Parse("2023-03-05"),
+                    amount = 1400,
                     type = "Loyer",
-                    status = "Non payé",
+                    status = "Non payée",
                     fk_rental_contract_id = 2
                 }
             };
@@ -144,11 +153,29 @@ namespace Immo_App.Core.Tests
                 {
                     id = 2,
                     date_payment = DateTime.Parse("2023-03-06"),
-                    amount = 350,
+                    amount = 1000,
                     origin = "Caisse d’allocation familiale",
                     fk_invoice_id = 2,
                     fk_rental_contract_id = 2
-                }
+                },
+                new Payment
+                {
+                    id = 3,
+                    date_payment = DateTime.Parse("2023-02-09"),
+                    amount = 900,
+                    origin = "Locataire",
+                    fk_invoice_id = 3,
+                    fk_rental_contract_id = 2
+                },
+                new Payment
+                {
+                    id = 4,
+                    date_payment = DateTime.Parse("2023-02-10"),
+                    amount = 500,
+                    origin = "Caisse d’allocation familiale",
+                    fk_invoice_id = 3,
+                    fk_rental_contract_id = 2
+                },
             };
         }
     }
