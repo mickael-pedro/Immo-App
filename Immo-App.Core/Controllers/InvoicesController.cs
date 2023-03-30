@@ -16,11 +16,15 @@ namespace Immo_App.Core.Controllers
         }
 
         [HttpGet("invoices/Add/{rentalId:int}")]
-        public IActionResult Add(int rentalId)
+        public async Task<IActionResult> Add(int rentalId)
         {
+            var rentalContractData = await immoDbContext.rental_contract.FindAsync(rentalId);
+
             var data = new AddInvoiceViewModel()
             {
-                fk_rental_contract_id = rentalId
+                fk_rental_contract_id = rentalId,
+                rent_charges_sum = rentalContractData.rent_price + rentalContractData.charges_price,
+                deposit_price = rentalContractData.security_deposit_price
             };
 
             return View(data);
@@ -54,7 +58,21 @@ namespace Immo_App.Core.Controllers
 
             if (invoice != null)
             {
-                return View(invoice);
+                var rentalContractData = await immoDbContext.rental_contract.FindAsync(invoice.fk_rental_contract_id);
+
+                var viewModel = new EditInvoiceViewModel()
+                {
+                    id = invoice.id,
+                    date_invoice = invoice.date_invoice,
+                    amount = invoice.amount,
+                    type = invoice.type,
+                    status = invoice.status,
+                    fk_rental_contract_id = invoice.fk_rental_contract_id,
+                    rent_charges_sum = rentalContractData.rent_price + rentalContractData.charges_price,
+                    deposit_price = rentalContractData.security_deposit_price
+                };
+
+                return View(viewModel);
             }
 
             return RedirectToAction("Index", "rentalContracts");
