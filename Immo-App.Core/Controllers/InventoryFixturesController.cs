@@ -1,6 +1,8 @@
 ﻿using Immo_App.Core.Data;
 using Immo_App.Core.Helpers;
 using Immo_App.Core.Models.InventoryFixture;
+using Immo_App.Core.Models.Invoice;
+using Immo_App.Core.Models.RentalContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -95,6 +97,35 @@ namespace Immo_App.Core.Controllers
                 await helper.UpdateRentalStatus(inventoryFixture.fk_rental_contract_id);
 
                 return RedirectToAction("Detail", "rentalContracts", new { id = inventoryFixture.fk_rental_contract_id });
+            }
+
+            return RedirectToAction("Index", "rentalContracts");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Notes(int id)
+        {
+            var inventoryFixture = await immoDbContext.inventory_fixture.FirstOrDefaultAsync(x => x.id == id);
+
+
+            if (inventoryFixture != null)
+            {
+                var apartmentAddress = await (from rc in immoDbContext.rental_contract
+                                                where rc.id == inventoryFixture.fk_rental_contract_id
+                                                join a in immoDbContext.apartment on rc.fk_apartment_id equals a.id
+                                                select a.address + (a.address_complement != null ? " " + a.address_complement : null) + ", " + a.zip_code + " " + a.city
+                                                ).SingleAsync();
+
+                var viewModel = new NotesInventoryFixtureViewModel()
+                {
+                    id = inventoryFixture.id,
+                    date_inv = inventoryFixture.date_inv,
+                    type = inventoryFixture.type,
+                    notes = inventoryFixture.notes,
+                    apartment_address = apartmentAddress
+                };
+
+                return View(viewModel);
             }
 
             return RedirectToAction("Index", "rentalContracts");

@@ -1,0 +1,17 @@
+﻿@model Immo_App.Core.Models.InventoryFixture.NotesInventoryFixtureViewModel
+@{
+}
+
+<h1 class="mb-4">État des lieux @Model.type N°@Model.id du @Model.date_inv.ToString("dd/MM/yyyy")</h1>
+
+<div class="mb-5">
+	<div class="mb-4">
+		<h2>Appartement concerné</h2>
+		<p>@Model.apartment_address</p>
+	</div>
+
+	<div>
+		<h2>Remarques observées</h2>
+		<p>@Model.notes</p>
+	</div>
+</div>
