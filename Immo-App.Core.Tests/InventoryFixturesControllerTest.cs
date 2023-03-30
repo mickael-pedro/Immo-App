@@ -1,6 +1,8 @@
 using Immo_App.Core.Controllers;
 using Immo_App.Core.Data;
+using Immo_App.Core.Models.Apartment;
 using Immo_App.Core.Models.InventoryFixture;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Immo_App.Core.Tests
@@ -108,6 +110,40 @@ namespace Immo_App.Core.Tests
             // Assert
             // Assert that we can't find the inventory fixture anymore
             Assert.Null(context.inventory_fixture.Find(1));
+        }
+
+        [Fact]
+        public void InventoryFixturesControllerNotesTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db_inventory")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            var inventoryFixtureFakeList = TestDataHelper.GetFakeInventoryFixtureList();
+            inventoryFixtureFakeList.ForEach(i => context.inventory_fixture.Add(i));
+            context.SaveChanges();
+
+            var controller = new InventoryFixturesController(context);
+
+            // Act
+            var result = controller.Notes(1);
+            var viewresult = result.Result as ViewResult;
+            var model = (NotesInventoryFixtureViewModel)(viewresult.Model);
+
+
+            // Assert
+            // Assert that we can't find the inventory fixture anymore
+            Assert.Equal(model.notes, "Test Fake List");
+            Assert.Equal(model.apartment_address, "12 Rue Boreau Appartement 13, 49100 Angers");
         }
     }
 }
