@@ -132,6 +132,15 @@ namespace Immo_App.Core.Tests
                     type = "Loyer",
                     status = "Non payée",
                     fk_rental_contract_id = 2
+                },
+                new Invoice
+                {
+                    id = 4,
+                    date_invoice = DateTime.Parse("2023-02-02"),
+                    amount = 1400,
+                    type = "Loyer",
+                    status = "Payée",
+                    fk_rental_contract_id = 2
                 }
             };
         }
@@ -176,6 +185,15 @@ namespace Immo_App.Core.Tests
                     fk_invoice_id = 3,
                     fk_rental_contract_id = 2
                 },
+                new Payment
+                {
+                    id = 5,
+                    date_payment = DateTime.Parse("2023-02-04"),
+                    amount = 1400,
+                    origin = "Caisse d’allocation familiale",
+                    fk_invoice_id = 4,
+                    fk_rental_contract_id = 2
+                }
             };
         }
     }
