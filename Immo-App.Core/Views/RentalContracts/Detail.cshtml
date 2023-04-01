@@ -53,7 +53,12 @@
 
 	<div>
 		<h4>Prix du loyer</h4>
-		<p>@string.Format("{0:0.00}", Model.rent_price)€</p>
+		<p>@string.Format("{0:0.00}", Model.rent_price * 0.92)€</p>
+	</div>
+
+	<div>
+		<h4>Frais d'agence</h4>
+		<p>@string.Format("{0:0.00}", Model.rent_price * 0.08)€</p>
 	</div>
 </div>
 
@@ -111,6 +116,7 @@
 					<th>Statut</th>
 					<th></th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -122,6 +128,12 @@
 						<td>@string.Format("{0:0.00}", invoice.amount)€</td>
 						<td>@invoice.type</td>
 						<td>@invoice.status</td>
+						<td>
+							@if (invoice.status == "Payée")
+							{
+								<a href="../../invoices/RentReceipt/@invoice.id">G</a>
+							}
+						</td>
 						<td><a href="../../invoices/Edit/@invoice.id">M</a></td>
 						<td><a href="../../invoices/Delete/@invoice.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">S</a></td>
 					</tr>
