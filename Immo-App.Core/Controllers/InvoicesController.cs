@@ -4,6 +4,9 @@ using Immo_App.Core.Models.Invoice;
 using Immo_App.Core.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace Immo_App.Core.Controllers
 {
@@ -136,6 +139,95 @@ namespace Immo_App.Core.Controllers
                 return RedirectToAction("Detail", "rentalContracts", new { id = invoice.fk_rental_contract_id });
             }
 
+            return RedirectToAction("Index", "rentalContracts");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RentReceipt(int id)
+        {
+            var invoice = await immoDbContext.invoice.FirstOrDefaultAsync(x => x.id == id);
+
+            if (invoice != null)
+            {
+                if (invoice.status == "Payée" && invoice.type != "Dépôt de garantie")
+                {
+                    var rentalContractData = await immoDbContext.rental_contract.FirstOrDefaultAsync(x => x.id == invoice.fk_rental_contract_id);
+                    var apartment = await immoDbContext.apartment.FirstOrDefaultAsync(x => x.id == rentalContractData.fk_apartment_id);
+                    var tenant = await immoDbContext.tenant.FirstOrDefaultAsync(x => x.id == rentalContractData.fk_tenant_id);
+                    var lastPayment = await immoDbContext.payment.Where(p => p.fk_invoice_id == invoice.id).OrderByDescending(p => p.date_payment).FirstOrDefaultAsync();
+
+                    if (rentalContractData != null && apartment != null && tenant != null && lastPayment != null)
+                    {
+                        var firstDayOfRentMonth = new DateTime(invoice.date_invoice.Year, invoice.date_invoice.Month, 1);
+                        var lastDayOfRentMonth = firstDayOfRentMonth.AddMonths(1).AddDays(-1);
+
+                        var file = Document.Create(container =>
+                        {
+                            container.Page(page =>
+                            {
+                                page.Size(PageSizes.A4);
+                                page.Margin(2, Unit.Centimetre);
+                                page.PageColor(Colors.White);
+                                page.DefaultTextStyle(x => x.FontSize(14));
+
+                                page.Header()
+                                    .AlignCenter()
+                                    .Text("Quittance de loyer du mois de " + invoice.date_invoice.ToString("MMMM yyyy")).FontColor("#002c77")
+                                    .SemiBold().FontSize(22);
+
+                                page.Content()
+                                    .PaddingVertical(1, Unit.Centimetre)
+                                    .Column(x =>
+                                    {
+                                        x.Spacing(20);
+
+                                        x.Item().Text(text =>
+                                        {
+                                            text.Line($"{tenant.first_name} {tenant.last_name}");
+                                            text.Line(tenant.email);
+                                        });
+
+                                        x.Item().AlignRight().Text(text =>
+                                        {
+                                            text.Line("Adresse de la location : ").Underline().Bold().FontColor("#135faa");
+                                            text.Line($"{apartment.address} {apartment.address_complement}");
+                                            text.Line($"{apartment.city} {apartment.zip_code}");
+                                        });
+
+                                        x.Item().Text($"Je déclare avoir reçu de {tenant.civility} {tenant.last_name}, la somme de {string.Format("{0:0.00}", invoice.amount)} euros, " +
+                                                      $"au titre du paiement du loyer et des charges pour la période de location du {firstDayOfRentMonth:d MMMM yyyy} " +
+                                                      $"au {lastDayOfRentMonth:d MMMM yyyy} et lui en donne quittance, sous réserve de tous mes droits.");
+
+                                        x.Item().Text(text =>
+                                        {
+                                            text.Line("Détail du règlement : ").Underline().Bold().FontColor("#135faa");
+                                            text.Line($"Loyer : {string.Format("{0:0.00}", rentalContractData.rent_price * 0.92)} euros");
+                                            text.Line($"Provision pour charges : {string.Format("{0:0.00}", rentalContractData.charges_price)} euros");
+                                            text.Line($"Frais d'agence : {string.Format("{0:0.00}", rentalContractData.rent_price * 0.08)} euros");
+                                            text.Line($"Total : {string.Format("{0:0.00}", rentalContractData.rent_price + rentalContractData.charges_price)} euros").Bold();
+                                            text.Line($"Date du paiement : le {lastPayment.date_payment.ToString("dd/MM/yyyy")}");
+                                        });
+                                    });
+
+                                page.Footer()
+                                    .AlignCenter()
+                                    .Text(x =>
+                                    {
+                                        x.Span("Page ");
+                                        x.CurrentPageNumber();
+                                    });
+                            });
+                        });
+
+                        byte[] pdfBytes = file.GeneratePdf();
+
+                        return File(pdfBytes, "application/octet-stream", "Invoice_" + id + ".pdf");
+                    }
+                }
+
+                return RedirectToAction("Detail", "rentalContracts", new { id = invoice.fk_rental_contract_id });
+            }
+            
             return RedirectToAction("Index", "rentalContracts");
         }
     }
