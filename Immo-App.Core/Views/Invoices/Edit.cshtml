@@ -17,7 +17,7 @@
 
     <div class="form-group mt-3">
         <label for="amount">Montant</label>
-        <input value="@Model.rent_charges_sum" type="text" class="form-control" id="amount" asp-for="amount" required>
+        <input type="text" class="form-control" id="amount" asp-for="amount" required>
     </div>
 
     <div class="form-group mt-3">
@@ -54,6 +54,11 @@
             document.getElementById("amount").readOnly = false;
         }
     }
-    // Run the function at page load in case the user reloads the page with the type already changed
-    updateAmount();
+
+    // Set amount input to read-only on page load if editing a security deposit
+    type = document.getElementById("type").value;
+
+    if (type == "Dépôt de garantie") {
+        document.getElementById("amount").readOnly = true;
+    }
 </script>
