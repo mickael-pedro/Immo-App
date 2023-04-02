@@ -1,5 +1,6 @@
 using Immo_App.Core.Controllers;
 using Immo_App.Core.Data;
+using Immo_App.Core.Helpers;
 using Immo_App.Core.Models.RentalContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -194,6 +195,55 @@ namespace Immo_App.Core.Tests
             Assert.True(model.rental_active);
             Assert.Equal("Madame Jeanne Pasquier", model.tenant_name);
             Assert.Equal("12 Rue Boreau Appartement 13, 49100 Angers", model.apartment_address);
+        }
+
+        [Fact]
+        public void RentalContractsControllerEndContractTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db_rental")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            var inventoryFixtureFakeList = TestDataHelper.GetFakeInventoryFixtureList();
+            inventoryFixtureFakeList.ForEach(i => context.inventory_fixture.Add(i));
+            var invoiceFakeList = TestDataHelper.GetFakeInvoiceList();
+            invoiceFakeList.ForEach(i => context.invoice.Add(i));
+            var paymentFakeList = TestDataHelper.GetFakePaymentList();
+            paymentFakeList.ForEach(i => context.payment.Add(i));
+            context.SaveChanges();
+
+            var controller = new RentalContractsController(context);
+            var helper = new UpdateStatusBalanceHelper(context);
+
+            // Act
+            // This shouldn't be able to end since there is no inventory fixture or paid security deposit
+            controller.EndContract(1);
+
+            // Update the rental status of our second contract to "En cours"
+            helper.UpdateRentalStatus(2);
+            // Then we should be able to close it
+            controller.EndContract(2);
+
+            // Assert
+            var rentalContractFail = context.rental_contract.Find(1);
+            var rentalContractClosed = context.rental_contract.Find(2);
+
+            // Assert that the first contract hasn't been closed
+            Assert.Equal("En attente paiement dépôt de garantie", rentalContractFail.rental_status);
+            Assert.True(rentalContractFail.rental_active);
+
+            // Assert that the second contract has been closed
+            Assert.Equal("Clôturé", rentalContractClosed.rental_status);
+            Assert.False(rentalContractClosed.rental_active);
         }
     }
 }

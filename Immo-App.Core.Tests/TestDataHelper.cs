@@ -98,6 +98,14 @@ namespace Immo_App.Core.Tests
                     type = "Entrée",
                     notes = "Test Fake List",
                     fk_rental_contract_id = 2
+                },
+                new InventoryFixture
+                {
+                    id = 2,
+                    date_inv = DateTime.Parse("2023-03-06"),
+                    type = "Sortie",
+                    notes = "Test Fake List Sortie",
+                    fk_rental_contract_id = 2
                 }
             };
         }
