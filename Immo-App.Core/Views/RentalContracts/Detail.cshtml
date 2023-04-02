@@ -90,7 +90,7 @@
 			@if(Model.rental_active == true)
 			{
 				<span>
-					<button type="button" class="btn btn-primary float-end" onclick="location.href='../../inventoryFixtures/Add/@Model.id'">Ajouter état des lieux</button>
+					<button type="button" class="btn btn-primary float-end" onclick="location.href='../../inventoryFixtures/Add/@Model.id'"><i class="fa-solid fa-plus"></i> Ajouter état des lieux</button>
 				</span>
 			}
 		</div>
@@ -113,9 +113,9 @@
 						<td>@inventoryFixture.id</td>
 						<td>@inventoryFixture.date_inv.ToString("dd/MM/yyyy")</td>
 						<td>@inventoryFixture.type</td>
-						<td><a href="../../inventoryFixtures/Notes/@inventoryFixture.id">Notes</a></td>
-						<td><a href="../../inventoryFixtures/Edit/@inventoryFixture.id">M</a></td>
-						<td><a href="../../inventoryFixtures/Delete/@inventoryFixture.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">S</a></td>
+						<td><a href="../../inventoryFixtures/Notes/@inventoryFixture.id"><i class="fa-solid fa-circle-info"></i></a></td>
+						<td><a href="../../inventoryFixtures/Edit/@inventoryFixture.id"><i class="fa-solid fa-pen-to-square"></i></a></td>
+						<td><a href="../../inventoryFixtures/Delete/@inventoryFixture.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');"><i class="fa-solid fa-trash"></i></a></td>
 					</tr>
 				}
 			</tbody>
@@ -128,7 +128,7 @@
 			@if (Model.rental_active == true)
 			{
 				<span>
-					<button type="button" class="btn btn-primary float-end" onclick="location.href='../../invoices/Add/@Model.id'">Ajouter facture</button>
+					<button type="button" class="btn btn-primary float-end" onclick="location.href='../../invoices/Add/@Model.id'"><i class="fa-solid fa-plus"></i> Ajouter facture</button>
 				</span>
 			}
 		</div>
@@ -158,11 +158,11 @@
 						<td>
 							@if (invoice.status == "Payée" && invoice.type != "Dépôt de garantie")
 							{
-								<a href="../../invoices/RentReceipt/@invoice.id">G</a>
+								<a href="../../invoices/RentReceipt/@invoice.id"><i class="fa-solid fa-file-pdf"></i></a>
 							}
 						</td>
-						<td><a href="../../invoices/Edit/@invoice.id">M</a></td>
-						<td><a href="../../invoices/Delete/@invoice.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">S</a></td>
+						<td><a href="../../invoices/Edit/@invoice.id"><i class="fa-solid fa-pen-to-square"></i></a></td>
+						<td><a href="../../invoices/Delete/@invoice.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');"><i class="fa-solid fa-trash"></i></a></td>
 					</tr>
 				}
 			</tbody>
@@ -173,7 +173,7 @@
 		<div class="d-flex justify-content-between">
 			<h2 class="mb-4">Paiements</h2>
 			<span>
-				<button type="button" class="btn btn-primary float-end" onclick="location.href='../../payments/Add/@Model.id'">Ajouter paiement</button>
+				<button type="button" class="btn btn-primary float-end" onclick="location.href='../../payments/Add/@Model.id'"><i class="fa-solid fa-plus"></i> Ajouter paiement</button>
 			</span>
 		</div>
 
@@ -196,8 +196,8 @@
 						<td>@payment.date_payment.ToString("dd/MM/yyyy")</td>
 						<td>@string.Format("{0:0.00}", payment.amount)€</td>
 						<td>@payment.origin</td>
-						<td><a href="../../payments/Edit/@payment.id">M</a></td>
-						<td><a href="../../payments/Delete/@payment.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');">S</a></td>
+						<td><a href="../../payments/Edit/@payment.id"><i class="fa-solid fa-pen-to-square"></i></a></td>
+						<td><a href="../../payments/Delete/@payment.id" onclick="return confirm('Êtes-vous sûr de vouloir supprimer?');"><i class="fa-solid fa-trash"></i></a></td>
 					</tr>
 				}
 			</tbody>
