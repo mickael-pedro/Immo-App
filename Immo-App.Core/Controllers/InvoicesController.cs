@@ -1,7 +1,6 @@
 ﻿using Immo_App.Core.Data;
 using Immo_App.Core.Helpers;
 using Immo_App.Core.Models.Invoice;
-using Immo_App.Core.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
