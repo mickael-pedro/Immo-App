@@ -245,5 +245,41 @@ namespace Immo_App.Core.Tests
             Assert.Equal("Clôturé", rentalContractClosed.rental_status);
             Assert.False(rentalContractClosed.rental_active);
         }
+
+        [Fact]
+        public void RentalContractsControllerBalanceSheetTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db_invoice")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            var invoiceFakeList = TestDataHelper.GetFakeInvoiceList();
+            invoiceFakeList.ForEach(i => context.invoice.Add(i));
+            var paymentFakeList = TestDataHelper.GetFakePaymentList();
+            paymentFakeList.ForEach(p => context.payment.Add(p));
+            context.SaveChanges();
+
+            var controller = new RentalContractsController(context);
+
+            // Act
+            var result = controller.BalanceSheet(2).Result;
+
+            // Assert
+            // Assert the result type
+            var fileContentResult = Assert.IsType<FileContentResult>(result);
+
+            //Finally assert the content type and the file name
+            Assert.Equal("application/octet-stream", fileContentResult.ContentType);
+            Assert.Equal("BalanceSheet_2.pdf", fileContentResult.FileDownloadName);
+        }
     }
 }
