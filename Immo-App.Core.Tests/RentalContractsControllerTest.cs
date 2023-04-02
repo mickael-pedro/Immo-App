@@ -73,7 +73,7 @@ namespace Immo_App.Core.Tests
             Assert.Equal("Non payé", rentalContractAdded.security_deposit_status);
             Assert.Equal(0, rentalContractAdded.tenant_balance);
             Assert.Equal("En attente du paiement du dépôt de garantie", rentalContractAdded.rental_status);
-            Assert.Equal(true, rentalContractAdded.rental_active);
+            Assert.True(rentalContractAdded.rental_active);
             Assert.Equal(1, rentalContractAdded.fk_tenant_id);
         }
 
@@ -121,7 +121,7 @@ namespace Immo_App.Core.Tests
             Assert.Equal("Payé", rentalContractEdited.security_deposit_status);
             Assert.Equal(200, rentalContractEdited.tenant_balance);
             Assert.Equal("En attente état des lieux entrée", rentalContractEdited.rental_status);
-            Assert.Equal(true, rentalContractEdited.rental_active);
+            Assert.True(rentalContractEdited.rental_active);
             Assert.Equal(2, rentalContractEdited.fk_tenant_id);
             Assert.Equal(2, rentalContractEdited.fk_apartment_id);
         }
@@ -191,7 +191,7 @@ namespace Immo_App.Core.Tests
             Assert.Equal("Payé", model.security_deposit_status);
             Assert.Equal(200, model.tenant_balance);
             Assert.Equal("En attente état des lieux entrée", model.rental_status);
-            Assert.Equal(true, model.rental_active);
+            Assert.True(model.rental_active);
             Assert.Equal("Madame Jeanne Pasquier", model.tenant_name);
             Assert.Equal("12 Rue Boreau Appartement 13, 49100 Angers", model.apartment_address);
         }
