@@ -148,11 +148,32 @@ namespace Immo_App.Core.Controllers
                                        apartment_address = a.address + (a.address_complement != null ? " " + a.address_complement : null) + ", " + a.zip_code + " " + a.city,
                                    }).SingleAsync();
 
-            rentalContractData.inventory_fixtures = await immoDbContext.inventory_fixture.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToListAsync();
-            rentalContractData.invoices = await immoDbContext.invoice.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToListAsync();
-            rentalContractData.payments = await immoDbContext.payment.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.id).ToListAsync();
+            rentalContractData.inventory_fixtures = await immoDbContext.inventory_fixture.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderBy(i => i.date_inv).ToListAsync();
+            rentalContractData.invoices = await immoDbContext.invoice.Where(i => i.fk_rental_contract_id == rentalContractData.id).OrderByDescending(i => i.date_invoice).ToListAsync();
+            rentalContractData.payments = await immoDbContext.payment.Where(p => p.fk_rental_contract_id == rentalContractData.id).OrderByDescending(p => p.date_payment).ToListAsync();
 
             return View(rentalContractData);
+        }
+
+        public async Task<IActionResult> EndContract(int id)
+        {
+            var rentalContract = await immoDbContext.rental_contract.FindAsync(id);
+
+            if (rentalContract != null)
+            {
+                var inventory_fixtures = await immoDbContext.inventory_fixture.Where(i => i.fk_rental_contract_id == id).ToListAsync();
+
+                if (rentalContract.rental_status == "En cours" && inventory_fixtures.Any(i => i.type == "Sortie"))
+                {
+                    rentalContract.rental_status = "Clôturé";
+                    rentalContract.rental_active = false;
+
+                    await immoDbContext.SaveChangesAsync();
+                    return RedirectToAction("Detail", new { rentalContract.id });
+                }
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
