@@ -2,6 +2,9 @@
 using Immo_App.Core.Models.RentalContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace Immo_App.Core.Controllers
 {
@@ -171,6 +174,105 @@ namespace Immo_App.Core.Controllers
                     await immoDbContext.SaveChangesAsync();
                     return RedirectToAction("Detail", new { rentalContract.id });
                 }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> BalanceSheet(int id)
+        {
+            var rentalContract = await immoDbContext.rental_contract.FindAsync(id);
+
+            if (rentalContract != null)
+            {
+                var apartment = await immoDbContext.apartment.FirstOrDefaultAsync(x => x.id == rentalContract.fk_apartment_id);
+                var tenant = await immoDbContext.tenant.FirstOrDefaultAsync(x => x.id == rentalContract.fk_tenant_id);
+                var invoices = await immoDbContext.invoice.Where(i => i.fk_rental_contract_id == rentalContract.id && i.type == "Loyer").OrderByDescending(i => i.date_invoice).ToListAsync();
+
+                if (apartment != null && tenant != null && invoices != null)
+                {
+                    var file = Document.Create(container =>
+                    {
+                        container.Page(page =>
+                        {
+                            page.Size(PageSizes.A4);
+                            page.Margin(2, Unit.Centimetre);
+                            page.PageColor(Colors.White);
+                            page.DefaultTextStyle(x => x.FontSize(14));
+                            page.Header()
+                            .AlignCenter()
+                                .Text($"Bilan des comptes du contrat de location N°{rentalContract.id}").FontColor("#002c77")
+                                .SemiBold().FontSize(22);
+
+                            page.Content()
+                                .PaddingVertical(1, Unit.Centimetre)
+                                .Column(x =>
+                                {
+                                    x.Spacing(20);
+
+                                    x.Item().Text(text =>
+                                    {
+                                        text.Line($"{tenant.first_name} {tenant.last_name}");
+                                        text.Line(tenant.email);
+                                    });
+
+                                    x.Item().AlignRight().Text(text =>
+                                    {
+                                        text.Line("Adresse de la location : ").Underline().Bold().FontColor("#135faa");
+                                        text.Line($"{apartment.address} {apartment.address_complement}");
+                                        text.Line($"{apartment.city} {apartment.zip_code}");
+                                    });
+
+                                    x.Item().Table(table =>
+                                    {
+                                        table.ColumnsDefinition(columns =>
+                                        {
+                                            columns.RelativeColumn();
+                                            columns.RelativeColumn();
+                                        });
+
+                                        table.Header(header =>
+                                        {
+                                            header.Cell().Element(CellStyle).Text("Libellé");
+                                            header.Cell().Element(CellStyle).AlignRight().Text("Montant");
+
+                                            static IContainer CellStyle(IContainer container)
+                                            {
+                                                return container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Black);
+                                            }
+                                        });
+
+                                        foreach (var invoice in invoices)
+                                        {
+                                            table.Cell().Element(CellStyle).Text("Loyer " +  invoice.date_invoice.ToString("MMMM yyyy"));
+                                            table.Cell().Element(CellStyle).AlignRight().Text($"{string.Format("{0:0.00}",invoice.amount)}€");
+
+                                            static IContainer CellStyle(IContainer container)
+                                            {
+                                                return container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
+                                            }
+                                        }
+                                    });
+
+                                    x.Item().AlignRight().Text($"Total : {string.Format("{0:0.00}", invoices.Sum(i => i.amount))}€");
+                                });
+
+                            page.Footer()
+                                .AlignCenter()
+                                .Text(x =>
+                                {
+                                    x.Span("Page ");
+                                    x.CurrentPageNumber();
+                                });
+                        });
+                    });
+
+                    byte[] pdfBytes = file.GeneratePdf();
+
+                    return File(pdfBytes, "application/octet-stream", "BalanceSheet_" + id + ".pdf");
+                }
+
+                return RedirectToAction("Detail", new { rentalContract.id });
             }
 
             return RedirectToAction("Index");
