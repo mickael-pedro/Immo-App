@@ -13,7 +13,28 @@
 	}
 </style>
 
-<h1 class="mb-4">Contrat de location N°@Model.id</h1>
+<div class="d-flex justify-content-between">
+	<h1 class="mb-4">Contrat de location N°@Model.id</h1>
+	<span>
+		@if (Model.rental_status == "En cours" && Model.inventory_fixtures.Any(i => i.type == "Sortie"))
+		{
+			<button type="button" class="btn btn-primary float-end" 
+				onclick="return confirm('Êtes-vous sûr de vouloir clôturer le contrat ?  (Ceci n\'est pas réversible)') ? 
+				location.href='@Url.Action("EndContract", "RentalContracts", new {Model.id})' : '';"
+			>
+				Clôre le contrat
+			</button>
+		} 
+		else if (Model.rental_status == "Clôturé")
+		{
+			<button type="button" class="btn btn-primary float-end" 
+				onclick="location.href='@Url.Action("BalanceSheet", "RentalContracts", new {Model.id})'"
+			>
+				Générer bilan des comptes
+			</button>
+		}
+	</span>
+</div>
 
 <div class="d-flex flex-wrap mb-5 rental-info">
 	<div>
@@ -66,9 +87,12 @@
 	<div class="pe-5">
 		<div class="d-flex justify-content-between">
 			<h2 class="mb-4">États des lieux</h2>
-			<span>
-				<button type="button" class="btn btn-primary float-end" onclick="location.href='../../inventoryFixtures/Add/@Model.id'">Ajouter état des lieux</button>
-			</span>
+			@if(Model.rental_active == true)
+			{
+				<span>
+					<button type="button" class="btn btn-primary float-end" onclick="location.href='../../inventoryFixtures/Add/@Model.id'">Ajouter état des lieux</button>
+				</span>
+			}
 		</div>
 		
 		<table class="table">
@@ -101,9 +125,12 @@
 	<div class="pe-5">
 		<div class="d-flex justify-content-between">
 			<h2 class="mb-4">Factures</h2>
-			<span>
-				<button type="button" class="btn btn-primary float-end" onclick="location.href='../../invoices/Add/@Model.id'">Ajouter facture</button>
-			</span>
+			@if (Model.rental_active == true)
+			{
+				<span>
+					<button type="button" class="btn btn-primary float-end" onclick="location.href='../../invoices/Add/@Model.id'">Ajouter facture</button>
+				</span>
+			}
 		</div>
 		
 		<table class="table">
@@ -129,7 +156,7 @@
 						<td>@invoice.type</td>
 						<td>@invoice.status</td>
 						<td>
-							@if (invoice.status == "Payée")
+							@if (invoice.status == "Payée" && invoice.type != "Dépôt de garantie")
 							{
 								<a href="../../invoices/RentReceipt/@invoice.id">G</a>
 							}
