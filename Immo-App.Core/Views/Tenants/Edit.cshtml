@@ -21,17 +21,17 @@
 
     <div class="form-group mt-3">
         <label for="first_name">Prénom</label>
-        <input type="text" class="form-control" id="first_name" placeholder="Prénom du locataire" asp-for="first_name">
+        <input type="text" class="form-control" id="first_name" placeholder="Prénom du locataire" asp-for="first_name" required>
     </div>
 
     <div class="form-group mt-3">
         <label for="last_name">Nom de famille</label>
-        <input type="text" class="form-control" id="last_name" placeholder="Nom de famille du locataire" asp-for="last_name">
+        <input type="text" class="form-control" id="last_name" placeholder="Nom de famille du locataire" asp-for="last_name" required>
     </div>
 
     <div class="form-group mt-3">
         <label for="email">E-mail</label>
-        <input type="email" class="form-control" id="email" placeholder="E-mail du locataire" asp-for="email">
+        <input type="email" class="form-control" id="email" placeholder="E-mail du locataire" asp-for="email" required>
     </div>
     <button type="submit" class="btn btn-primary mt-4">Envoyer</button>
 </form>

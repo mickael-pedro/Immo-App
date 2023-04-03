@@ -13,22 +13,22 @@
 
     <div class="form-group mt-3">
         <label for="address">Adresse</label>
-        <input type="text" class="form-control" id="address" placeholder="Adresse de l'appartement" asp-for="address">
+        <input type="text" class="form-control" id="address" placeholder="Adresse de l'appartement" asp-for="address" required>
     </div>
 
     <div class="form-group mt-3">
         <label for="address_complement">Complément d'adresse</label>
-        <input type="text" class="form-control" id="address_complement" placeholder="Complément d'adresse" asp-for="address_complement">
+        <input type="text" class="form-control" id="address_complement" placeholder="Complément d'adresse" asp-for="address_complement" required>
     </div>
 
     <div class="form-group mt-3">
         <label for="city">Ville</label>
-        <input type="text" class="form-control" id="city" placeholder="Ville" asp-for="city">
+        <input type="text" class="form-control" id="city" placeholder="Ville" asp-for="city" required>
     </div>
 
     <div class="form-group mt-3">
         <label for="zip_code">Code postal</label>
-        <input type="text" class="form-control" id="zip_code" placeholder="Code postal" asp-for="zip_code">
+        <input type="text" class="form-control" id="zip_code" placeholder="Code postal" asp-for="zip_code" required>
     </div>
     <button type="submit" class="btn btn-primary mt-4">Envoyer</button>
 </form>
