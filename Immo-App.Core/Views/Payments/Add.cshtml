@@ -14,7 +14,7 @@
     <div class="form-group mt-3">
         <label for="amount">Montant</label>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" id="amount" asp-for="amount" required>
+            <input type="text" class="form-control" id="amount" asp-for="amount" onkeypress="return isNumberKey(event)" required>
             <div class="input-group-append">
                 <span class="input-group-text">€</span>
             </div>

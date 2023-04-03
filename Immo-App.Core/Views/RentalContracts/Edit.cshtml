@@ -28,7 +28,7 @@
     <div class="form-group mt-3">
         <label for="charges_price">Prix des charges</label>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" id="charges_price" placeholder="Prix des charges" asp-for="charges_price">
+            <input type="text" class="form-control" id="charges_price" placeholder="Prix des charges" onkeypress="return isNumberKey(event)" asp-for="charges_price">
             <div class="input-group-append">
                 <span class="input-group-text">€</span>
             </div>
@@ -38,7 +38,7 @@
     <div class="form-group mt-3">
         <label for="rent_price">Prix du loyer (les frais d'agence seront automatiquement calculés)</label>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" id="rent_price" placeholder="Prix du loyer" asp-for="rent_price">
+            <input type="text" class="form-control" id="rent_price" placeholder="Prix du loyer" onkeypress="return isNumberKey(event)" asp-for="rent_price">
             <div class="input-group-append">
                 <span class="input-group-text">€</span>
             </div>
@@ -48,7 +48,7 @@
     <div class="form-group mt-3">
         <label for="security_deposit_price">Montant du dépôt de garantie</label>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" id="security_deposit_price" placeholder="Montant du dépôt de garantie" asp-for="security_deposit_price">
+            <input type="text" class="form-control" id="security_deposit_price" placeholder="Montant du dépôt de garantie" onkeypress="return isNumberKey(event)" asp-for="security_deposit_price">
             <div class="input-group-append">
                 <span class="input-group-text">€</span>
             </div>

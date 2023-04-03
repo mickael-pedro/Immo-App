@@ -14,7 +14,7 @@
     <div class="form-group mt-3">
         <label for="amount">Montant</label>
         <div class="input-group mb-3">
-            <input value="@Model.rent_charges_sum" type="text" class="form-control" id="amount" asp-for="amount" required>
+            <input value="@Model.rent_charges_sum" type="text" class="form-control" id="amount" onkeypress="return isNumberKey(event)" asp-for="amount" required>
             <div class="input-group-append">
                 <span class="input-group-text">€</span>
             </div>
@@ -51,6 +51,7 @@
             document.getElementById("amount").readOnly = false;
         }
     }
+
     // Run the function at page load in case the user reloads the page with the type already changed
     updateAmount();
 </script>
