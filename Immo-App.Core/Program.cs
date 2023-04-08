@@ -1,5 +1,11 @@
 using Immo_App.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+
+var cultureInfo = new CultureInfo("fr-FR");
+
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 
