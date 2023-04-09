@@ -3,7 +3,7 @@
     ViewData["Title"] = "Modifier paiement";
 }
 
-<h1 class=" mb-4">Modifier un état des lieux</h1>
+<h1 class=" mb-4">Modifier un paiement</h1>
 
 <form method="post" action="Edit">
     <div class="form-group mt-3">
@@ -40,7 +40,7 @@
             <option value="">Selectionner une facture</option>
             @foreach (var invoice in Model.invoices)
             {
-                <option value="@invoice.id">Facture N°@invoice.id - @invoice.date_invoice @invoice.amount€</option>
+                <option value="@invoice.id">Facture N°@invoice.id - @invoice.date_invoice.ToString("dd/MM/yyyy") @invoice.amount€</option>
             }
             @if (!Model.invoices.Any())
             {
