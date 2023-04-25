@@ -11,3 +11,5 @@ Les principales fonctionnalités proposées sont les suivantes :
 - Gestion des paiements des dépôts de garantie et loyers
 - Génération de quittance de loyer
 - Génération de bilan des comptes des loyers
+
+Lien de l'application déployée : https://immo-appcore20230404120653.azurewebsites.net/
