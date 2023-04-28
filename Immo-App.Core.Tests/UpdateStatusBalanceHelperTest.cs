@@ -111,5 +111,45 @@ namespace Immo_App.Core.Tests
             // Assert that the invoice status has been correctly updated
             Assert.Equal("Payée", invoice.status);
         }
+
+        [Fact]
+        public void AddPaidSecurityDepositTest()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ImmoDbContext>()
+            .UseInMemoryDatabase(databaseName: "immo_db_status_balance")
+            .Options;
+            var context = new ImmoDbContext(options);
+            context.Database.EnsureDeleted();
+
+            var apartmentFakeList = TestDataHelper.GetFakeApartmentList();
+            apartmentFakeList.ForEach(a => context.apartment.Add(a));
+            var tenantFakeList = TestDataHelper.GetFakeTenantList();
+            tenantFakeList.ForEach(t => context.tenant.Add(t));
+            var rentalContractFakeList = TestDataHelper.GetFakeRentalContractList();
+            rentalContractFakeList.ForEach(r => context.rental_contract.Add(r));
+            context.SaveChanges();
+
+            var helper = new UpdateStatusBalanceHelper(context);
+
+            // Act
+            // Balance of rental contract is "Non payée"
+            helper.AddPaidSecurityDeposit(1, 1200, "Locataire");
+
+            // Assert
+            var rentalContract = context.rental_contract.Find(1);
+            var invoice = context.invoice.Find(1);
+            var payment = context.payment.Find(1);
+
+            // Assert that the invoice and payment has been correctly added, and the rental contract has been updated
+            Assert.Equal(1200, invoice.amount);
+            Assert.Equal("Payée", invoice.status);
+            Assert.Equal("Dépôt de garantie", invoice.type);
+
+            Assert.Equal(1200, payment.amount);
+            Assert.Equal("Locataire", payment.origin);
+
+            Assert.Equal("Payé", rentalContract.security_deposit_status);
+        }
     }
 }
