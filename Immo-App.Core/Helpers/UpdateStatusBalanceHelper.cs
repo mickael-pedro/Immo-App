@@ -1,5 +1,6 @@
 ﻿using Immo_App.Core.Data;
 using Immo_App.Core.Models.Invoice;
+using Immo_App.Core.Models.Payment;
 using Microsoft.EntityFrameworkCore;
 
 namespace Immo_App.Core.Helpers
@@ -102,6 +103,44 @@ namespace Immo_App.Core.Helpers
                 }
 
                 return;
+            }
+
+            return;
+        }
+
+        public async Task AddPaidSecurityDeposit(int rentalId, float securityDepositPrice, string paymentOrigin)
+        {
+            var rentalContract = immoDbContext.rental_contract.Find(rentalId);
+
+            if (rentalContract != null)
+            {
+                var invoice = new Invoice()
+                {
+                    date_invoice = DateTime.Today.ToUniversalTime(),
+                    amount = securityDepositPrice,
+                    type = "Dépôt de garantie",
+                    status = "Payée",
+                    fk_rental_contract_id = rentalId
+                };
+
+                await immoDbContext.invoice.AddAsync(invoice);
+                await immoDbContext.SaveChangesAsync();
+
+                var payment = new Payment()
+                {
+                    date_payment = DateTime.Today.ToUniversalTime(),
+                    amount = securityDepositPrice,
+                    origin = paymentOrigin,
+                    fk_invoice_id = invoice.id,
+                    fk_rental_contract_id = rentalId
+                };
+
+                await immoDbContext.payment.AddAsync(payment);
+
+                rentalContract.security_deposit_status = "Payé";
+                await immoDbContext.SaveChangesAsync();
+
+                await UpdateRentalStatus(rentalId);
             }
 
             return;
