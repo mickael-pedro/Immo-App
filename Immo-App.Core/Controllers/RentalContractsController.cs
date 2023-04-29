@@ -1,4 +1,5 @@
 ﻿using Immo_App.Core.Data;
+using Immo_App.Core.Helpers;
 using Immo_App.Core.Models.RentalContract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +58,7 @@ namespace Immo_App.Core.Controllers
                 security_deposit_price = addRentalContractRequest.security_deposit_price,
                 security_deposit_status = "Non payé",
                 tenant_balance = 0,
-                rental_status = "En attente du paiement du dépôt de garantie",
+                rental_status = "En attente état des lieux d’entrée",
                 rental_active = true,
                 fk_tenant_id = addRentalContractRequest.fk_tenant_id,
                 fk_apartment_id = addRentalContractRequest.fk_apartment_id
@@ -65,6 +66,14 @@ namespace Immo_App.Core.Controllers
 
             await immoDbContext.rental_contract.AddAsync(rentalContract);
             await immoDbContext.SaveChangesAsync();
+
+            if (addRentalContractRequest.security_deposit_status == "paidTenant" || addRentalContractRequest.security_deposit_status == "paidAllocation")
+            {
+                var paymentOrigin = addRentalContractRequest.security_deposit_status == "paidTenant" ? "Locataire" : "Caisse d’allocation familiale";
+                var helper = new UpdateStatusBalanceHelper(immoDbContext);
+                await helper.AddPaidSecurityDeposit(rentalContract.id, rentalContract.security_deposit_price, paymentOrigin);
+            }
+
             return RedirectToAction("Index");
         }
 

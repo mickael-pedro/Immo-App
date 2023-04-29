@@ -66,5 +66,14 @@
         </div>
     </div>
 
+    <div class="form-group mt-3">
+        <label for="tenant">Statut du dépôt de garantie (Optionnel)</label>
+        <select class="form-control" id="security_deposit_status" asp-for="security_deposit_status">
+            <option>Non payé</option>
+            <option value="paidTenant">Payé - Origine : Locataire</option>
+            <option value="paidAllocation">Payé - Origine : Caisse d’allocation familiale</option>
+        </select>
+    </div>
+
     <button type="submit" class="btn btn-primary mt-4">Envoyer</button>
 </form>

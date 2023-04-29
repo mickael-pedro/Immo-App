@@ -5,6 +5,7 @@
         public float charges_price { get; set; }
         public float rent_price { get; set; }
         public float security_deposit_price { get; set; }
+        public string security_deposit_status { get; set; }
         public int fk_tenant_id { get; set; }
         public int fk_apartment_id { get; set; }
         public List<Apartment.Apartment> available_apartments { get; set; }
