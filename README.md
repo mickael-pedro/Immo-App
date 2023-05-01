@@ -9,7 +9,7 @@ Les principales fonctionnalités proposées sont les suivantes :
 - Opérations CRUD sur les locataires, appartements, contrats de location, état des lieux, factures et paiements.
 - Affecter un locataire à un appartment grâce à un contrat de location
 - Gestion des paiements des dépôts de garantie et loyers
-- Génération de quittance de loyer
-- Génération de bilan des comptes des loyers
+- Génération de quittance de loyer au format PDF
+- Génération de bilan des comptes des loyers au format PDF
 
 Lien de l'application déployée : https://immo-appcore20230404120653.azurewebsites.net/
