@@ -1,4 +1,4 @@
-# Immo App
+# Immo App Dev
 
 Immo App est une application web servant de **POC** pour un outil de **gestion de location immobilière**.
 
